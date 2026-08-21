@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Surprise</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; display:flex; justify-content:center; align-items:center;
+  background:#0b0b10; color:#fff; font-family:Arial,sans-serif; overflow:hidden;
+}
+.card{
+  width:min(92%,520px); min-height:520px; padding:34px; border-radius:28px;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(18px); box-shadow:0 25px 80px rgba(0,0,0,.45);
+}
+h1{font-size:30px;margin:0 0 12px}
+p{color:#bdbdc8;line-height:1.6}
+.progress{height:5px;background:#292934;border-radius:10px;margin:25px 0}
+.progress span{display:block;height:100%;width:20%;background:#ff4f91;border-radius:10px;transition:.4s}
+.question{display:none}
+.question.active{display:block}
+.options{display:grid;gap:10px;margin-top:22px}
+.option,button{
+  border:0;border-radius:14px;padding:14px 16px;background:#1d1d27;color:white;
+  cursor:pointer;font-size:15px;transition:.2s;
+}
+.option:hover,.option.selected{background:#ff4f91;transform:translateY(-2px)}
+textarea,input{
+  width:100%;padding:15px;border-radius:14px;border:1px solid #383844;
+  background:#15151e;color:#fff;outline:none;font-size:15px;margin-top:15px;
+}
+textarea{height:110px;resize:none}
+.next{width:100%;margin-top:22px;background:#fff;color:#111;font-weight:bold}
+.next:hover{transform:translateY(-2px)}
+.center{text-align:center}
+.hidden{display:none!important}
+.loader{
+  width:100%;height:8px;background:#282832;border-radius:20px;overflow:hidden;margin:25px 0;
+}
+.loader span{display:block;height:100%;width:0;background:#ff4f91;animation:load 4.8s forwards}
+@keyframes load{to{width:100%}}
+.fade{animation:fade .7s ease}
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+.big{font-size:55px;margin:15px 0}
+.photo{
+  width:100%;height:220px;object-fit:cover;border-radius:20px;margin-top:15px;
+}
+.answer{
+  margin:15px 0;padding:15px;border-left:3px solid #ff4f91;background:#15151e;
+  border-radius:0 12px 12px 0;color:#eee;
+}
+canvas{position:fixed;inset:0;pointer-events:none}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="card" id="survey">
+  <div id="intro" class="fade">
+    <div style="font-size:42px">🔐</div>
+    <h1>Жижигхэн судалгаа 👀</h1>
+    <p>Чамаас хэдхэн асуулт асуух гэсэн юм. 2 минут л болно. Бүгдийг нь үнэнээр хариулаарай. 😌</p>
+    <button class="next" onclick="start()">Судалгааг эхлүүлэх →</button>
+  </div>
+
+  <div id="form" class="hidden">
+    <div class="progress"><span id="bar"></span></div>
+
+    <div class="question active" data-q="1">
+      <small>QUESTION 1 / 5</small>
+      <h1>Өнөөдөр өөрийгөө ямар mood-той байна гэж бодож байна?</h1>
+      <div class="options">
+        <button class="option" onclick="choose(this,'mood','😊 Маш гоё')">😊 Маш гоё</button>
+        <button class="option" onclick="choose(this,'mood','😐 Дундаж')">😐 Дундаж</button>
+        <button class="option" onclick="choose(this,'mood','🥲 Ядарсан')">🥲 Ядарсан</button>
+        <button class="option" onclick="choose(this,'mood','😂 Юу ч мэдэхгүй')">😂 Юу ч мэдэхгүй</button>
+      </div>
+      <button class="next" onclick="next()">Дараагийн асуулт →</button>
+    </div>
+
+    <div class="question" data-q="2">
+      <small>QUESTION 2 / 5</small>
+      <h1>Сүүлийн үед хамгийн их баярлуулсан зүйл чинь юу байсан бэ?</h1>
+      <textarea id="happy" placeholder="Энд бичээрэй..."></textarea>
+      <button class="next" onclick="next()">Дараагийн асуулт →</button>
+    </div>
+
+    <div class="question" data-q="3">
+      <small>QUESTION 3 / 5</small>
+      <h1>Чамд хамгийн үнэ цэнтэй дурсамж аль нь вэ?</h1>
+      <textarea id="memory" placeholder="Энд бичээрэй..."></textarea>
+      <button class="next" onclick="next()">Дараагийн асуулт →</button>
+    </div>
+
+    <div class="question" data-q="4">
+      <small>QUESTION 4 / 5</small>
+      <h1>Ирээдүйд заавал хиймээр байгаа зүйл?</h1>
+      <textarea id="future" placeholder="Энд бичээрэй..."></textarea>
+      <button class="next" onclick="next()">Дараагийн асуулт →</button>
+    </div>
+
+    <div class="question" data-q="5">
+      <small>СҮҮЛИЙН АСУУЛТ 👀</small>
+      <h1>Өнөөдөр чамд хэн нэгэн surprise бэлдсэн байж магадгүй гэж бодож байна уу?</h1>
+      <div class="options">
+        <button class="option" onclick="choose(this,'surprise','Тийм 👀')">Тийм 👀</button>
+        <button class="option" onclick="choose(this,'surprise','Үгүй 😂')">Үгүй 😂</button>
+      </div>
+      <button class="next" onclick="submitForm()">😈 Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="card hidden" id="loading">
+  <div class="center fade">
+    <div style="font-size:45px">🧠</div>
+    <h1>Analyzing your answers...</h1>
+    <div class="loader"><span></span></div>
+    <p id="status">Analyzing personality...</p>
+  </div>
+</div>
+
+<div class="card hidden" id="surprise">
+  <div class="center fade">
+    <div class="big">🎂</div>
+    <h1>SURPRISE!</h1>
+    <h1>HAPPY BIRTHDAY, <span id="name">НЗИНА</span> ❤️</h1>
+    <p>Чи саяхан юу чамайг хамгийн их баярлуулсныг хэлсэн...</p>
+    <div class="answer" id="happyAnswer"></div>
+    <p>Тэгвэл энэ удаа чамайг баярлуулах ээлж нь биднийх. ❤️</p>
+
+    <!-- ЭНД ӨӨРИЙН ЗУРГИЙГ СОЛИНО -->
+    <img class="photo" src="photos/1.jpg" alt="Memory">
+
+    <p style="margin-top:22px">
+      Чамд зориулж энэ жижигхэн surprise-г бэлдлээ.<br>
+      Өнөөдрийг хамгийн гоё өнгөрүүлээрэй! 🎉
+    </p>
+
+    <!-- ЭНД ӨӨРИЙН ДУУГ СОЛИНО -->
+    <audio id="music" src="music.mp3" controls style="width:100%;margin-top:10px"></audio>
+  </div>
+</div>
+
+<script>
+let current=1;
+let answers={mood:"",happy:"",memory:"",future:"",surprise:""};
+
+function start(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("form").classList.remove("hidden");
+}
+
+function choose(el,key,value){
+  el.parentElement.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));
+  el.classList.add("selected");
+  answers[key]=value;
+}
+
+function next(){
+  if(current===1 && !answers.mood){alert("Нэгийг нь сонгоно уу 😊");return}
+  if(current===2){answers.happy=document.getElementById("happy").value.trim()}
+  if(current===3){answers.memory=document.getElementById("memory").value.trim()}
+  if(current===4){answers.future=document.getElementById("future").value.trim()}
+  if(current===2 && !answers.happy){alert("Хариултаа бичээрэй 😊");return}
+  if(current===3 && !answers.memory){alert("Хариултаа бичээрэй 😊");return}
+  if(current===4 && !answers.future){alert("Хариултаа бичээрэй 😊");return}
+
+  document.querySelector(`.question[data-q="${current}"]`).classList.remove("active");
+  current++;
+  document.querySelector(`.question[data-q="${current}"]`).classList.add("active");
+  document.getElementById("bar").style.width=(current*20)+"%";
+}
+
+function submitForm(){
+  if(!answers.surprise){alert("Нэгийг нь сонгоно уу 👀");return}
+  document.getElementById("survey").classList.add("hidden");
+  document.getElementById("loading").classList.remove("hidden");
+
+  const statuses=[
+    "Analyzing personality...",
+    "Analyzing memories...",
+    "Searching birthday files...",
+    "Checking something unexpected..."
+  ];
+  let i=0;
+  const timer=setInterval(()=>{
+    document.getElementById("status").textContent=statuses[i]||"Almost done...";
+    i++;
+    if(i>4){
+      clearInterval(timer);
+      setTimeout(showSurprise,700);
+    }
+  },1200);
+}
+
+function showSurprise(){
+  document.getElementById("loading").classList.add("hidden");
+  document.getElementById("surprise").classList.remove("hidden");
+
+  document.getElementById("happyAnswer").textContent=
+    answers.happy ? `"${answers.happy}"` : "Чи хариулахаа мартчихжээ 😂";
+
+  document.getElementById("music").play().catch(()=>{});
+  startConfetti();
+}
+
+/* Simple confetti */
+function startConfetti(){
+  const c=document.getElementById("confetti"),ctx=c.getContext("2d");
+  c.width=innerWidth;c.height=innerHeight;
+  let pieces=Array.from({length:180},()=>({
+    x:Math.random()*c.width,y:-Math.random()*c.height,
+    s:4+Math.random()*7,v:2+Math.random()*5,r:Math.random()*Math.PI
+  }));
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    pieces.forEach(p=>{
+      p.y+=p.v;p.r+=.05;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
+      ctx.fillStyle=`hsl(${Math.random()*360},90%,65%)`;
+      ctx.fillRect(0,0,p.s,p.s*1.7);ctx.restore();
+      if(p.y>c.height)p.y=-20;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+</body>
+</html>
