@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="mn" class="scroll-smooth">
+<html lang="mn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>Happy Birthday - [Найзын нэр]</title>
+  <title>Технологийн судалгаа & Төрсөн өдрийн мэнд</title>
 
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css" />
@@ -14,14 +15,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
+    /* Google Forms style */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #fef9f4;
+      font-family: 'Poppins', 'Google Sans', 'Roboto', Arial, sans-serif;
+      background: #e8eaed;
       color: #2c3e50;
       overflow-x: hidden;
       -webkit-tap-highlight-color: transparent;
     }
+
     .font-anime { font-family: 'Mochiy Pop One', sans-serif; }
     .text-sakura { color: #FF6B8A; }
     .text-sakura-light { color: #FFB7C5; }
@@ -29,6 +33,7 @@
     .bg-sakura-dark { background: #FF6B8A; }
     .bg-navy { background: #1a2634; }
     .bg-cream { background: #fef9f4; }
+
     .text-gradient {
       background: linear-gradient(135deg, #FF6B8A, #FFB7C5, #FF6B8A);
       -webkit-background-clip: text;
@@ -41,6 +46,7 @@
       50% { background-position: 100% 50%; }
     }
 
+    /* Sakura Canvas */
     #sakura-canvas {
       position: fixed;
       top: 0;
@@ -50,9 +56,246 @@
       z-index: 5;
       pointer-events: none;
     }
+
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+    /* Form Styles */
+    .form-container {
+      max-width: 720px;
+      width: 100%;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      padding: 30px 36px 20px;
+      border: 1px solid #dadce0;
+      margin: 0 auto;
+    }
+
+    .form-header {
+      border-bottom: 1px solid #dadce0;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+
+    .form-title {
+      font-size: 28px;
+      font-weight: 400;
+      color: #202124;
+      letter-spacing: -0.3px;
+    }
+
+    .form-subtitle {
+      font-size: 14px;
+      color: #5f6368;
+      margin-top: 6px;
+      font-weight: 400;
+    }
+
+    .required-star {
+      color: #d93025;
+      font-size: 18px;
+      margin-left: 2px;
+    }
+
+    .question-block {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f1f3f4;
+    }
+
+    .question-block:last-of-type {
+      border-bottom: none;
+      margin-bottom: 10px;
+    }
+
+    .question-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #202124;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .question-title .required-star {
+      font-size: 16px;
+    }
+
+    .question-help {
+      font-size: 13px;
+      color: #5f6368;
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    .input-field,
+    .select-field,
+    .textarea-field {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      border: none;
+      border-bottom: 1.5px solid #dadce0;
+      background: transparent;
+      transition: 0.15s;
+      font-family: inherit;
+      color: #202124;
+    }
+
+    .input-field:focus,
+    .select-field:focus,
+    .textarea-field:focus {
+      border-bottom-color: #1a73e8;
+      outline: none;
+      border-bottom-width: 2px;
+    }
+
+    .input-field::placeholder,
+    .textarea-field::placeholder {
+      color: #9aa0a6;
+    }
+
+    .textarea-field {
+      min-height: 60px;
+      resize: vertical;
+      border: 1.5px solid #dadce0;
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+
+    .textarea-field:focus {
+      border-color: #1a73e8;
+      border-width: 2px;
+    }
+
+    .select-field {
+      background: white;
+      cursor: default;
+      border-radius: 0;
+    }
+
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 4px 0;
+    }
+
+    .option-group label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 400;
+      color: #202124;
+      cursor: default;
+      padding: 2px 0;
+    }
+
+    .option-group input[type="radio"],
+    .option-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #1a73e8;
+      cursor: default;
+      flex-shrink: 0;
+    }
+
+    .grid-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 28px;
+      padding: 6px 0;
+    }
+
+    .grid-options label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      color: #202124;
+      cursor: default;
+    }
+
+    .grid-options input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #1a73e8;
+      cursor: default;
+    }
+
+    .date-field {
+      padding: 8px 12px;
+      font-size: 15px;
+      border: 1.5px solid #dadce0;
+      border-radius: 4px;
+      background: white;
+      color: #202124;
+      max-width: 200px;
+    }
+
+    .date-field:focus {
+      border-color: #1a73e8;
+      outline: none;
+      border-width: 2px;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #dadce0;
+    }
+
+    .btn {
+      padding: 10px 28px;
+      border: none;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      color: #1a73e8;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      transition: 0.1s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary:hover {
+      background: #1557b0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-clear {
+      color: #5f6368;
+    }
+
+    .btn-clear:hover {
+      background: #f1f3f4;
+    }
+
+    .footer-note {
+      font-size: 13px;
+      color: #80868b;
+      text-align: right;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f3f4;
+    }
+
+    /* Birthday page styles */
     .video-wrapper {
       position: relative;
       padding-bottom: 56.25%;
@@ -107,13 +350,6 @@
       margin: 3rem auto;
       border-radius: 4px;
     }
-    .section-divider-thin {
-      background: linear-gradient(90deg, transparent, #FFB7C5, transparent);
-      height: 2px;
-      width: 40%;
-      margin: 2rem auto;
-      border-radius: 4px;
-    }
 
     .timeline-dot {
       width: 18px;
@@ -163,16 +399,6 @@
     .emoji-big { font-size: 3rem; line-height: 1.2; }
     @media (min-width: 768px) { .emoji-big { font-size: 4rem; } }
 
-    /* Mobile friendly */
-    @media (max-width: 640px) {
-      .countdown-box { padding: 0.8rem 1.2rem; }
-      .countdown-box #countdown { font-size: 1rem !important; }
-      .glass-card { padding: 1.2rem !important; }
-      .wish-card { padding: 1rem; }
-      .section-divider { width: 85%; margin: 2rem auto; }
-    }
-
-    /* Image sizing */
     .timeline-img {
       width: 100%;
       height: 200px;
@@ -203,7 +429,6 @@
       .hof-img { height: 200px; }
     }
 
-    /* Confetti style */
     .confetti-piece {
       position: fixed;
       width: 10px;
@@ -216,6 +441,39 @@
       0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
+
+    @media (max-width: 550px) {
+      .form-container {
+        padding: 18px 16px 12px;
+      }
+      .form-title {
+        font-size: 22px;
+      }
+      .grid-options {
+        gap: 8px 16px;
+      }
+      .form-actions {
+        flex-direction: column-reverse;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .btn {
+        text-align: center;
+      }
+    }
+
+    /* Smooth scroll to birthday section */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Hide birthday section initially, show via JS or link */
+    #birthday-section {
+      display: none;
+    }
+    #birthday-section.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -226,618 +484,726 @@
 <!-- ===== CONFETTI CONTAINER ===== -->
 <div id="confetti-container"></div>
 
-<!-- ===== SECTION 1: HERO ===== -->
-<header class="min-h-screen relative flex items-center justify-center text-white overflow-hidden">
-  <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
-    <source src="img/intro1.mov" type="video/mp4" />
-  </video>
-  <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+<!-- ===== SURVEY SECTION ===== -->
+<section id="survey-section" class="py-8 px-4">
+  <div class="form-container">
+    <!-- Header -->
+    <div class="form-header">
+      <div class="form-title">Технологи ба Дижитал амьдрал</div>
+      <div class="form-subtitle">10 асуулт — Таны дижитал хэрэглээний судалгаа</div>
+    </div>
 
-  <div class="text-center z-10 p-4 w-full max-w-4xl mx-auto" data-aos="fade-in" data-aos-duration="1500">
-    <div class="floating">
-      <div class="text-3xl sm:text-5xl mb-2">🥳</div>
-      <h1 class="text-4xl sm:text-5xl md:text-7xl font-anime drop-shadow-2xl leading-tight">
-        Happy Birthday, <br />
-        <span class="text-gradient">Cousin Molomdoo</span>
-      </h1>
-    </div>
-    <p class="mt-3 text-base sm:text-xl md:text-2xl font-light tracking-wider">🎉 Өнөөдөр чиний  өдөр шүү 🎉</p>
-    <div class="mt-6 countdown-box" data-aos="fade-up" data-aos-delay="300">
-      <div id="countdown" class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-widest leading-relaxed"></div>
-    </div>
-    <div class="mt-5 flex justify-center gap-2 sm:gap-4 flex-wrap">
-      <span class="friend-badge">🤝 Хайр түгээгээрэй</span>
-      <span class="friend-badge">💪 Хүчтэй байгаарай</span>
-      <span class="friend-badge">😄 Үргэлж инээгээрэй</span>
-    </div>
+    <form id="surveyForm">
+      <!-- 1. Нэр -->
+      <div class="question-block">
+        <div class="question-title">
+          1. Таны бүтэн нэр <span class="required-star">*</span>
+        </div>
+        <input class="input-field" type="text" placeholder="Хариултаа бичнэ үү" value="" />
+      </div>
+
+      <!-- 2. Насны бүлэг -->
+      <div class="question-block">
+        <div class="question-title">2. Насны бүлэг</div>
+        <select class="select-field">
+          <option>18-24</option>
+          <option>25-34</option>
+          <option>35-44</option>
+          <option>45-54</option>
+          <option>55+</option>
+        </select>
+      </div>
+
+      <!-- 3. Өдөрт хэдэн цаг интернет ашигладаг вэ? -->
+      <div class="question-block">
+        <div class="question-title">3. Өдөрт дунджаар хэдэн цаг интернет ашигладаг вэ? <span class="required-star">*</span></div>
+        <select class="select-field">
+          <option>1 цаг хүрэхгүй</option>
+          <option>1-3 цаг</option>
+          <option selected>4-6 цаг</option>
+          <option>7-9 цаг</option>
+          <option>10+ цаг</option>
+        </select>
+      </div>
+
+      <!-- 4. Аль төхөөрөмжийг хамгийн их ашигладаг вэ? -->
+      <div class="question-block">
+        <div class="question-title">4. Аль төхөөрөмжийг хамгийн их ашигладаг вэ? <span class="required-star">*</span></div>
+        <div class="option-group">
+          <label><input type="radio" name="device" checked /> Ухаалаг гар утас</label>
+          <label><input type="radio" name="device" /> Зөөврийн компьютер</label>
+          <label><input type="radio" name="device" /> Ширээний компьютер</label>
+          <label><input type="radio" name="device" /> Таблет</label>
+          <label><input type="radio" name="device" /> Бусад</label>
+        </div>
+      </div>
+
+      <!-- 5. Аль сошиал медиа ашигладаг вэ? -->
+      <div class="question-block">
+        <div class="question-title">
+          5. Аль сошиал медиа платформуудыг ашигладаг вэ?
+          <span class="question-help">(хэдэн ч сонголт)</span>
+        </div>
+        <div class="option-group">
+          <label><input type="checkbox" checked /> Facebook</label>
+          <label><input type="checkbox" checked /> Instagram</label>
+          <label><input type="checkbox" /> TikTok</label>
+          <label><input type="checkbox" /> Twitter/X</label>
+          <label><input type="checkbox" /> YouTube</label>
+          <label><input type="checkbox" /> LinkedIn</label>
+          <label><input type="checkbox" /> Бусад</label>
+        </div>
+      </div>
+
+      <!-- 6. Онлайн худалдаа хийдэг үү? -->
+      <div class="question-block">
+        <div class="question-title">6. Та онлайн худалдаа (e-commerce) хийдэг үү? <span class="required-star">*</span></div>
+        <div class="option-group">
+          <label><input type="radio" name="shopping" checked /> Тийм, байнга</label>
+          <label><input type="radio" name="shopping" /> Заримдаа</label>
+          <label><input type="radio" name="shopping" /> Ховорхон</label>
+          <label><input type="radio" name="shopping" /> Хэзээ ч</label>
+        </div>
+      </div>
+
+      <!-- 7. Технологийн талаарх сэтгэгдэл -->
+      <div class="question-block">
+        <div class="question-title">7. Технологийн хөгжил таны амьдралд хэрхэн нөлөөлж байна вэ?</div>
+        <textarea class="textarea-field" placeholder="Сэтгэгдлээ бичнэ үү..."></textarea>
+      </div>
+
+      <!-- 8. Хиймэл оюун ухаанд хандах хандлага -->
+      <div class="question-block">
+        <div class="question-title">8. Хиймэл оюун ухаан (AI)-д хандах таны хандлага?</div>
+        <select class="select-field">
+          <option selected>Эерэг, их боломжтой</option>
+          <option>Төвийг сахисан</option>
+          <option>Сөрөг, аюултай</option>
+          <option>Сонирхолтой, гэхдээ болгоомжтой</option>
+        </select>
+      </div>
+
+      <!-- 9. Дижитал ур чадварын үнэлгээ -->
+      <div class="question-block">
+        <div class="question-title">9. Өөрийн дижитал ур чадварыг хэрхэн үнэлэх вэ?</div>
+        <div class="grid-options">
+          <label><input type="radio" name="skill" checked /> Маш муу</label>
+          <label><input type="radio" name="skill" /> Муу</label>
+          <label><input type="radio" name="skill" /> Дунд</label>
+          <label><input type="radio" name="skill" /> Сайн</label>
+          <label><input type="radio" name="skill" /> Маш сайн</label>
+        </div>
+      </div>
+
+      <!-- 10. Судалгаа бөглөсөн огноо -->
+      <div class="question-block">
+        <div class="question-title">10. Судалгаа бөглөсөн огноо</div>
+        <input class="date-field" type="date" value="2026-08-25" />
+      </div>
+
+      <!-- Товчнууд -->
+      <div class="form-actions">
+        <button class="btn btn-clear" type="reset">Цэвэрлэх</button>
+        <!-- Submit button now navigates to birthday section -->
+        <button class="btn btn-primary" type="button" id="goToBirthdayBtn">Илгээх</button>
+      </div>
+
+      <div class="footer-note">
+        ⚡ Илгээх товч дарвал төрсөн өдрийн мэндчилгээ рүү шилжинэ
+      </div>
+    </form>
   </div>
-</header>
+</section>
 
-<!-- ===== MAIN CONTENT ===== -->
-<main class="container mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8">
+<!-- ===== BIRTHDAY SECTION (hidden initially) ===== -->
+<section id="birthday-section" class="bg-cream">
+  <!-- Hero -->
+  <header class="min-h-screen relative flex items-center justify-center text-white overflow-hidden">
+    <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
+      <source src="img/intro1.mov" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
 
-  <!-- ===== SECTION 2: FRIEND LETTER ===== -->
-  <section class="my-12 sm:my-20 max-w-4xl mx-auto" data-aos="fade-up">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center text-sakura mb-6 sm:mb-8">💌 Үеэлдээ зориулсан мэндчилгээ</h2>
-    <div class="glass-card p-6 sm:p-8 md:p-12 text-base sm:text-lg leading-relaxed space-y-4">
-      <p class="text-xl sm:text-2xl font-anime text-sakura">Эрхэм үеэл [Жамбиймолом],</p>
-      <p>Эхлээд юуч гэсэн төрсөн өдрийн мэнд хүргэе! 🎂</p>
-      <p>Төрсөн цагаасаа эхлэн үеэл гэсэн тодотголтой өдийг хүрлээ энэ хугацаанд үеэлүүд ямар байдгийг тултал мэдэрсэн гэж бодож байна одоо ингээд амьдралын их далайд хөл тавьсан учир хамтдаа дурсамж бүтээлцэх өдөр хоног цаг хугацаа багасаж байна.</p>
-      <p>Тус тусдаа хувийн амьдралынхаа төлөө зүтгэж гэрэлт ирээдүйнхээ төлөө хичээцгээе тэгээд чадахгүй байна тэгээд байна ингээд байна гээд байхаар гараа чанга атгаад хичээгээрэй амжилт. </p>
-      <p>Өөр юу ч хэлэх үү дээ угаса тэгээл уулзаж байх байлгүй бүтэхгүй дурлалтай учраад яваад байваа тэр зурагаа хаяаарай мангараа!!!</p>
-      <div class="flex justify-end items-center gap-4 mt-4">
-        <span class="text-sm opacity-60">— Чиний хөөрхөн үеэлээс аая.</span>
-        <span class="text-2xl">🤗</span>
+    <div class="text-center z-10 p-4 w-full max-w-4xl mx-auto" data-aos="fade-in" data-aos-duration="1500">
+      <div class="floating">
+        <div class="text-3xl sm:text-5xl mb-2">🥳</div>
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-anime drop-shadow-2xl leading-tight">
+          Happy Birthday, <br />
+          <span class="text-gradient">Cousin Molomdoo</span>
+        </h1>
+      </div>
+      <p class="mt-3 text-base sm:text-xl md:text-2xl font-light tracking-wider">🎉 Өнөөдөр чиний өдөр шүү 🎉</p>
+      <div class="mt-6 countdown-box" data-aos="fade-up" data-aos-delay="300">
+        <div id="countdown" class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-widest leading-relaxed"></div>
+      </div>
+      <div class="mt-5 flex justify-center gap-2 sm:gap-4 flex-wrap">
+        <span class="friend-badge">🤝 Хайр түгээгээрэй</span>
+        <span class="friend-badge">💪 Хүчтэй байгаарай</span>
+        <span class="friend-badge">😄 Үргэлж инээгээрэй</span>
       </div>
     </div>
-  </section>
+  </header>
 
-  <div class="section-divider"></div>
+  <!-- Main Birthday Content -->
+  <main class="container mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8">
 
-  <!-- ===== SECTION 3: BEST MOMENTS TIMELINE (12 хэсэг) ===== -->
-  <section class="my-12 sm:my-20">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">📖 Бидний хамгийн сайхан мөчүүд</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Үеэлүүдийн  дурсамж — мөнхөд үлдэх эрдэнэ</p>
-
-    <div class="space-y-12 sm:space-y-16 md:space-y-20 max-w-5xl mx-auto">
-
-      <!-- 1 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/1.jpeg" alt="Анхны уулзалт" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#1</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🤝 Анхны хоолонд оролт</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Энэ өдөр Баагий ах Отгоо аниа хоёр бяднийг хоолонд оруулсан үхэх гэж байгаа юм шиг идэж байгаагийн хха.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2022 оны намар хавьцаа байх өө</p>
+    <!-- Friend Letter -->
+    <section class="my-12 sm:my-20 max-w-4xl mx-auto" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center text-sakura mb-6 sm:mb-8">💌 Үеэлдээ зориулсан мэндчилгээ</h2>
+      <div class="glass-card p-6 sm:p-8 md:p-12 text-base sm:text-lg leading-relaxed space-y-4">
+        <p class="text-xl sm:text-2xl font-anime text-sakura">Эрхэм үеэл [Жамбиймолом],</p>
+        <p>Эхлээд юуч гэсэн төрсөн өдрийн мэнд хүргэе! 🎂</p>
+        <p>Төрсөн цагаасаа эхлэн үеэл гэсэн тодотголтой өдийг хүрлээ энэ хугацаанд үеэлүүд ямар байдгийг тултал мэдэрсэн гэж бодож байна одоо ингээд амьдралын их далайд хөл тавьсан учир хамтдаа дурсамж бүтээлцэх өдөр хоног цаг хугацаа багасаж байна.</p>
+        <p>Тус тусдаа хувийн амьдралынхаа төлөө зүтгэж гэрэлт ирээдүйнхээ төлөө хичээцгээе тэгээд чадахгүй байна тэгээд байна ингээд байна гээд байхаар гараа чанга атгаад хичээгээрэй амжилт.</p>
+        <p>Өөр юу ч хэлэх үү дээ угаса тэгээл уулзаж байх байлгүй бүтэхгүй дурлалтай учраад яваад байваа тэр зурагаа хаяаарай мангараа!!!</p>
+        <div class="flex justify-end items-center gap-4 mt-4">
+          <span class="text-sm opacity-60">— Чиний хөөрхөн үеэлээс аая.</span>
+          <span class="text-2xl">🤗</span>
         </div>
       </div>
+    </section>
 
-      <!-- 2 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/8.jpeg" alt="Хамтдаа инээсэн" class=" h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#2</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">😂 Хамтдаа инээсэн өдөр</h3>
-            <div class="timeline-dot"></div>
+    <div class="section-divider"></div>
+
+    <!-- Best Moments Timeline -->
+    <section class="my-12 sm:my-20">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">📖 Бидний хамгийн сайхан мөчүүд</h2>
+      <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Үеэлүүдийн дурсамж — мөнхөд үлдэх эрдэнэ</p>
+
+      <div class="space-y-12 sm:space-y-16 md:space-y-20 max-w-5xl mx-auto">
+
+        <!-- 1 -->
+        <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/1.jpeg" alt="Анхны уулзалт" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#1</div>
           </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Зааланд тоглохоороо л татаж унанашдээ тийм ээ хаха.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 Хаврын цагаар л байх</p>
+          <div class="md:w-1/2 text-center md:text-left">
+            <div class="flex items-center justify-center md:justify-start gap-3">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🤝 Анхны хоолонд оролт</h3>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Энэ өдөр Баагий ах Отгоо аниа хоёр бяднийг хоолонд оруулсан үхэх гэж байгаа юм шиг идэж байгаагийн хха.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2022 оны намар хавьцаа байх өө</p>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/8.jpeg" alt="Хамтдаа инээсэн" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#2</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-right">
+            <div class="flex items-center justify-center md:justify-end gap-3">
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">😂 Хамтдаа инээсэн өдөр</h3>
+              <div class="timeline-dot"></div>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Зааланд тоглохоороо л татаж унанашдээ тийм ээ хаха.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 Хаврын цагаар л байх</p>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/3.jpeg" alt="Аялал" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#3</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-left">
+            <div class="flex items-center justify-center md:justify-start gap-3">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌄 Хамтдаа аялсан нь</h3>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Анхны аялал айн ямарч мэдрэмжгүй их идэх юм авсан гэхдээ дуусгасан гахайнууд.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2025 он байх аа</p>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/13.png" alt="Баяр" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#4</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-right">
+            <div class="flex items-center justify-center md:justify-end gap-3">
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎉 Хамгийн сайхан баяр</h3>
+              <div class="timeline-dot"></div>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Гэрийн том босс-ын төрсөн өдөр 5лаа солиортол буу халсөөн хха.Хоол фэйлдцэн тогооч нь би бишшүү.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2023 оны намар</p>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/7.jpeg" alt="Гайхалтай мөч" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#5</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-left">
+            <div class="flex items-center justify-center md:justify-start gap-3">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌟 Гайхалтай мөч</h3>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Кино түрээслэж үзэж байж 3ын 3лаа унтаж эдр өө айр айр.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 Хэзээ ч ийн мэдэхгүй ээ.</p>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/hool.jpeg" alt="Найз нөхөд" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#6</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-right">
+            <div class="flex items-center justify-center md:justify-end gap-3">
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">👫 Хоолны мангас</h3>
+              <div class="timeline-dot"></div>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Тэнэг юм шиг дандаа гэдэсээ дүүртэл иднэ.Үнэн дуртай ядаж байхад турах талаар яриад ч яахав маргааш болий.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 Үргэлж</p>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/zaal.jpeg" alt="Хамтын ажил" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#7</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-left">
+            <div class="flex items-center justify-center md:justify-start gap-3">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎯 Хамтдаа зорилгодоо хүрсэн</h3>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Заал авахыг бол зорилгоо болгосон хэсэгхэн хугацаанд</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2025 оны хавар</p>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/moroodol.jpeg" alt="Мөрөөдөл" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#8</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-right">
+            <div class="flex items-center justify-center md:justify-end gap-3">
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌠 Мөрөөдөл биелсэн мөч</h3>
+              <div class="timeline-dot"></div>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Чиний мөрөөдөл биелэхэд бид бүгд хамтдаа баярласан. Одоо бүр том мөрөөдлийнхөө төлөө gooooooooooo</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2026 оны зун</p>
+          </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/dur.jpeg" alt="Хамтын дурсамж" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#9</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-left">
+            <div class="flex items-center justify-center md:justify-start gap-3">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">📸 Хамтдаа бүтээсэн дурсамж</h3>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Бидний дурсамж мөнхөд үлдэнэ.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2014 он хавьцаа байх өөө</p>
+          </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/9.jpeg" alt="Ирээдүйн төлөв" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#10</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-right">
+            <div class="flex items-center justify-center md:justify-end gap-3">
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌈 Ирээдүйн гэрэл</h3>
+              <div class="timeline-dot"></div>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Одоо ямар хүмүүс болсон байна ирээдүйнхээ төлөө зүтгээд байждээ.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2022 оны намар</p>
+          </div>
+        </div>
+
+        <!-- 11 -->
+        <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/5.jpeg" alt="Хөгжилтэй үдэш" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#11</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-left">
+            <div class="flex items-center justify-center md:justify-start gap-3">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎮 Хөгжилтэй үдэш</h3>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Шөнө дунд хүртэл инээлдэж, хөгжилдсөн үе байсаан солиотой уйддаг байж дээ.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2024 оны намар</p>
+          </div>
+        </div>
+
+        <!-- 12 -->
+        <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
+          <div class="md:w-1/2 relative w-full">
+            <img src="img/nzu.jpeg" alt="Хамгийн сайн найз" class="h-64 timeline-img shadow-xl border-4 border-white" />
+            <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#12</div>
+          </div>
+          <div class="md:w-1/2 text-center md:text-right">
+            <div class="flex items-center justify-center md:justify-end gap-3">
+              <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🏆 Хамгийн сайн найзууд</h3>
+              <div class="timeline-dot"></div>
+            </div>
+            <p class="mt-2 text-sm sm:text-base md:text-lg">Маш их дурсамж бүтээлцсэн хүмүүс зөв үү ? Зөвхөн чиний сонголт биш итгэлцэл.</p>
+            <p class="text-xs text-gray-400 mt-1">📅 2010-2026 он цагийн нөхөрлөл</p>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- 3 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/3.jpeg" alt="Аялал" class=" h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#3</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌄 Хамтдаа аялсан нь</h3>
+    <div class="section-divider"></div>
+
+    <!-- Videos -->
+    <section class="my-12 sm:my-20 max-w-6xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center text-sakura mb-3" data-aos="fade-up">🎬 Бяцхаан мэндчилгээ</h2>
+      <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Чамд зориулсан онцгой бичлэгүүд</p>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div data-aos="fade-up" data-aos-delay="50">
+          <div class="video-wrapper shadow-xl">
+            <video controls class="controls rounded-xl">
+              <source src="img/b1.mov" type="video/mp4" />
+            </video>
           </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Анхны аялал айн ямарч мэдрэмжгүй их идэх юм авсан гэхдээ дуусгасан гахайнууд.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2025 он байх аа</p>
+          <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">💕 Төрсөн өдрийн эзэнг эхлээд яаая мэнд2</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="150">
+          <div class="video-wrapper shadow-xl">
+            <video controls class="controls rounded-xl">
+              <source src="img/b2.mov" type="video/mp4" />
+            </video>
+          </div>
+          <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Онцгой дурсамж</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="250">
+          <div class="video-wrapper shadow-xl">
+            <video controls class="controls rounded-xl">
+              <source src="img/b3.mov" type="video/mp4" />
+            </video>
+          </div>
+          <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🌟 Хөгжилтэй мөчүүд</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="350">
+          <div class="video-wrapper shadow-xl">
+            <video controls class="controls rounded-xl">
+              <source src="img/b4.mov" type="video/mp4" />
+            </video>
+          </div>
+          <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Тэгээд гол нь өөртөө итгэлтэй айн</p>
         </div>
       </div>
+    </section>
 
-      <!-- 4 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/13.png" alt="Баяр" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#4</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎉 Хамгийн сайхан баяр</h3>
-            <div class="timeline-dot"></div>
+    <div class="section-divider"></div>
+
+    <!-- Hall of Fame -->
+    <section class="my-12 sm:my-20">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">🏆 Дурсамжийн өргөө</h2>
+      <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Хэхэ бой хажуу тийш нь гүйлгээрэй гоё юм байгаа шүү ></p>
+
+      <div class="relative">
+        <button id="scroll-left-btn" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all opacity-0 md:opacity-100 hover:scale-110">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        </button>
+        <button id="scroll-right-btn" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all opacity-0 md:opacity-100 hover:scale-110">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </button>
+
+        <div id="hall-of-fame-scroller" class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide p-3 sm:p-4 -mx-3 sm:-mx-4">
+          <div class="flex snap-x snap-mandatory gap-4 sm:gap-6">
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="30">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d18.jpeg" alt="Photo 1" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="60">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d17.png" alt="Photo 2" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="90">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d16.jpeg" alt="Photo 3" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="120">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d15.png" alt="Photo 4" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="150">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d14.jpg" alt="Photo 5" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="180">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d13.jpg" alt="Photo 6" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="210">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d12.png" alt="Photo 7" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="240">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d11.jpeg" alt="Photo 8" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="270">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d10.JPG" alt="Photo 9" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="300">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d9.JPG" alt="Photo 10" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="330">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d8.JPG" alt="Photo 11" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="360">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d7.JPEG" alt="Photo 12" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="390">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d6.jpg" alt="Photo 13" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="420">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d5.jpeg" alt="Photo 14" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="450">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d4.jpeg" alt="Photo 15" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="480">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d3.jpeg" alt="Photo 16" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="510">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d2.jpeg" alt="Photo 17" class="hof-img" />
+              </div>
+            </div>
+            <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="540">
+              <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
+                <img src="img/d1.jpeg" alt="Photo 18" class="hof-img" />
+              </div>
+            </div>
           </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Гэрийн том босс-ын төрсөн өдөр 5лаа солиортол буу халсөөн хха.Хоол фэйлдцэн тогооч нь би бишшүү.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2023 оны намар</p>
         </div>
       </div>
+    </section>
 
-      <!-- 5 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/7.jpeg" alt="Гайхалтай мөч" class=" h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#5</div>
+    <div class="section-divider"></div>
+
+    <!-- Gallery -->
+    <section class="my-12 sm:my-20">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-2" data-aos="fade-up">📸 Зургуудийн чинь цуглуулга.</h2>
+      <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Арай гэж олдсон нь энэ</p>
+
+      <div id="lightgallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+        <a href="img/1.png" data-aos="zoom-in" class="block w-full photo-card">
+          <img src="img/a1.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 1" />
+        </a>
+        <a href="img/2.png" data-aos="zoom-in" data-aos-delay="25" class="block w-full photo-card">
+          <img src="img/a2.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 2" />
+        </a>
+        <a href="img/3.png" data-aos="zoom-in" data-aos-delay="50" class="block w-full photo-card">
+          <img src="img/a3.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 3" />
+        </a>
+        <a href="img/4.png" data-aos="zoom-in" data-aos-delay="75" class="block w-full photo-card">
+          <img src="img/a4.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 4" />
+        </a>
+        <a href="img/5.png" data-aos="zoom-in" data-aos-delay="100" class="block w-full photo-card">
+          <img src="img/a5.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 5" />
+        </a>
+        <a href="img/6.png" data-aos="zoom-in" data-aos-delay="125" class="block w-full photo-card">
+          <img src="img/a6.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 6" />
+        </a>
+        <a href="img/7.png" data-aos="zoom-in" data-aos-delay="150" class="block w-full photo-card">
+          <img src="img/a7.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 7" />
+        </a>
+        <a href="img/8.png" data-aos="zoom-in" data-aos-delay="175" class="block w-full photo-card">
+          <img src="img/a8.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 8" />
+        </a>
+        <a href="img/9.png" data-aos="zoom-in" data-aos-delay="200" class="block w-full photo-card">
+          <img src="img/a9.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 9" />
+        </a>
+        <a href="img/10.png" data-aos="zoom-in" data-aos-delay="225" class="block w-full photo-card">
+          <img src="img/a10.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 10" />
+        </a>
+        <a href="img/11.png" data-aos="zoom-in" data-aos-delay="250" class="block w-full photo-card">
+          <img src="img/a11.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 11" />
+        </a>
+        <a href="img/12.png" data-aos="zoom-in" data-aos-delay="275" class="block w-full photo-card">
+          <img src="img/a12.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 12" />
+        </a>
+        <a href="img/13.png" data-aos="zoom-in" data-aos-delay="300" class="block w-full photo-card">
+          <img src="img/a13.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 13" />
+        </a>
+        <a href="img/14.png" data-aos="zoom-in" data-aos-delay="325" class="block w-full photo-card">
+          <img src="img/a14.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 14" />
+        </a>
+        <a href="img/15.png" data-aos="zoom-in" data-aos-delay="350" class="block w-full photo-card">
+          <img src="img/a15.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 15" />
+        </a>
+        <a href="img/16.png" data-aos="zoom-in" data-aos-delay="375" class="block w-full photo-card">
+          <img src="img/a16.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 16" />
+        </a>
+        <a href="img/17.png" data-aos="zoom-in" data-aos-delay="400" class="block w-full photo-card">
+          <img src="img/a17.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 17" />
+        </a>
+        <a href="img/18.png" data-aos="zoom-in" data-aos-delay="425" class="block w-full photo-card">
+          <img src="img/a18.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 18" />
+        </a>
+        <a href="img/19.png" data-aos="zoom-in" data-aos-delay="450" class="block w-full photo-card">
+          <img src="img/a19.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 19" />
+        </a>
+        <a href="img/20.png" data-aos="zoom-in" data-aos-delay="475" class="block w-full photo-card">
+          <img src="img/a20.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 20" />
+        </a>
+        <a href="img/21.png" data-aos="zoom-in" data-aos-delay="500" class="block w-full photo-card">
+          <img src="img/a21.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 21" />
+        </a>
+        <a href="img/22.png" data-aos="zoom-in" data-aos-delay="525" class="block w-full photo-card">
+          <img src="img/a22.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 22" />
+        </a>
+        <a href="img/23.png" data-aos="zoom-in" data-aos-delay="550" class="block w-full photo-card">
+          <img src="img/a23.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 23" />
+        </a>
+        <a href="img/24.png" data-aos="zoom-in" data-aos-delay="575" class="block w-full photo-card">
+          <img src="img/a24.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 24" />
+        </a>
+        <a href="img/25.png" data-aos="zoom-in" data-aos-delay="600" class="block w-full photo-card">
+          <img src="img/a25.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 25" />
+        </a>
+        <a href="img/26.png" data-aos="zoom-in" data-aos-delay="625" class="block w-full photo-card">
+          <img src="img/a26.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 26" />
+        </a>
+        <a href="img/27.png" data-aos="zoom-in" data-aos-delay="650" class="block w-full photo-card">
+          <img src="img/a27.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 27" />
+        </a>
+        <a href="img/28.png" data-aos="zoom-in" data-aos-delay="675" class="block w-full photo-card">
+          <img src="img/a28.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 28" />
+        </a>
+        <a href="img/29.png" data-aos="zoom-in" data-aos-delay="700" class="block w-full photo-card">
+          <img src="img/a29.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 29" />
+        </a>
+        <a href="img/30.png" data-aos="zoom-in" data-aos-delay="725" class="block w-full photo-card">
+          <img src="img/a30.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 30" />
+        </a>
+        <a href="img/31.png" data-aos="zoom-in" data-aos-delay="750" class="block w-full photo-card">
+          <img src="img/a31.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 31" />
+        </a>
+        <a href="img/32.png" data-aos="zoom-in" data-aos-delay="775" class="block w-full photo-card">
+          <img src="img/a32.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 32" />
+        </a>
+        <a href="img/33.png" data-aos="zoom-in" data-aos-delay="800" class="block w-full photo-card">
+          <img src="img/a33.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 33" />
+        </a>
+        <a href="img/34.png" data-aos="zoom-in" data-aos-delay="825" class="block w-full photo-card">
+          <img src="img/a34.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 34" />
+        </a>
+        <a href="img/35.png" data-aos="zoom-in" data-aos-delay="850" class="block w-full photo-card">
+          <img src="img/a35.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 35" />
+        </a>
+        <a href="img/36.png" data-aos="zoom-in" data-aos-delay="875" class="block w-full photo-card">
+          <img src="img/a36.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 36" />
+        </a>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Future Plans -->
+    <section class="my-12 sm:my-20 max-w-4xl mx-auto" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3">🔮 Ирээдүйн төлөвлөгөө</h2>
+      <p class="text-center text-sm sm:text-base text-gray-500 mb-8">Бид хамтдаа хийх зүйлс</p>
+
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="50">
+          <div class="emoji-big mb-3">🚗</div>
+          <h3 class="text-base sm:text-xl font-anime text-sakura">Хамтдаа аялах</h3>
+          <p class="text-xs sm:text-sm text-gray-500 mt-2">Ядаж өгий орийдоо хха</p>
         </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌟 Гайхалтай мөч</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Кино түрээслэж үзэж байж 3ын 3лаа унтаж эдр өө айр айр.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 Хэзээ ч ийн мэдэхгүй ээ.</p>
+        <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="150">
+          <div class="emoji-big mb-3">🏐</div>
+          <h3 class="text-base sm:text-xl font-anime text-sakura">Хөгжилтэй тоглоом</h3>
+          <p class="text-xs sm:text-sm text-gray-500 mt-2">Зүгээр заалдёиоооо</p>
+        </div>
+        <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="250">
+          <div class="emoji-big mb-3">🍜</div>
+          <h3 class="text-base sm:text-xl font-anime text-sakura">Гоё хоолонд орёоо тэгж байгаад хха</h3>
+          <p class="text-xs sm:text-sm text-gray-500 mt-2">Солиортоо хоол идье</p>
         </div>
       </div>
+    </section>
 
-      <!-- 6 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/hool.jpeg" alt="Найз нөхөд" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#6</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">👫 Хоолны мангас</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Тэнэг юм шиг дандаа гэдэсээ дүүртэл иднэ.Үнэн дуртай ядаж байхад турах талаар яриад ч яахав маргааш болий.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 Үргэлж</p>
-        </div>
-      </div>
+    <div class="section-divider"></div>
 
-      <!-- 7 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/zaal.jpeg" alt="Хамтын ажил" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#7</div>
+    <!-- Finale -->
+    <section class="my-12 sm:my-20" data-aos="fade-up">
+      <h2 class="text-3xl sm:text-4xl md:text-7xl font-anime text-center mb-4 sm:mb-6 leading-tight">
+        🎊 Дахиад төрсөн өдрийн мэнд, <br class="sm:hidden" />
+        <span class="text-gradient">Momochko</span>!
+      </h2>
+      <div class="max-w-4xl mx-auto rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden bg-navy p-6 sm:p-10 text-white text-center">
+        <p class="text-base sm:text-xl md:text-2xl font-light leading-relaxed">
+          Өнөөдөр чиний өдөр шүү амжилт! 💖
+        </p>
+        <div class="mt-4 sm:mt-6 flex justify-center gap-4 sm:gap-6 text-3xl sm:text-4xl">
+          <span>🎈</span>
+          <span>🎂</span>
+          <span>🎁</span>
+          <span>🎉</span>
+          <span>🤗</span>
         </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎯 Хамтдаа зорилгодоо хүрсэн</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Заал авахыг бол зорилгоо болгосон хэсэгхэн хугацаанд</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2025 оны хавар</p>
-        </div>
+        <p class="mt-4 text-xs sm:text-sm opacity-60">— Чиний хөөрхөн үеэлээс сэтгэлийн бэлэг шүү хаха</p>
       </div>
+    </section>
 
-      <!-- 8 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/moroodol.jpeg" alt="Мөрөөдөл" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#8</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌠 Мөрөөдөл биелсэн мөч</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Чиний мөрөөдөл биелэхэд бид бүгд хамтдаа баярласан.
-            Одоо бүр том мөрөөдлийнхөө төлөө gooooooooooo
-          </p>
-          <p class="text-xs text-gray-400 mt-1">📅 2026 оны зун</p>
-        </div>
-      </div>
+  </main>
 
-      <!-- 9 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/dur.jpeg" alt="Хамтын дурсамж" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#9</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">📸 Хамтдаа бүтээсэн дурсамж</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Бидний дурсамж мөнхөд үлдэнэ.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2014 он хавьцаа байх өөө</p>
-        </div>
-      </div>
-
-      <!-- 10 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/9.jpeg" alt="Ирээдүйн төлөв" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#10</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌈 Ирээдүйн гэрэл</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Одоо ямар хүмүүс болсон байна ирээдүйнхээ төлөө зүтгээд байждээ.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2022 оны намар</p>
-        </div>
-      </div>
-
-      <!-- 11 (ШИНЭ) -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/5.jpeg" alt="Хөгжилтэй үдэш" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#11</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎮 Хөгжилтэй үдэш</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Шөнө дунд хүртэл инээлдэж, хөгжилдсөн үе байсаан солиотой уйддаг байж дээ.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2024 оны намар</p>
-        </div>
-      </div>
-
-      <!-- 12 (ШИНЭ) -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/nzu.jpeg" alt="Хамгийн сайн найз" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#12</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🏆 Хамгийн сайн найзууд</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Маш их дурсамж бүтээлцсэн хүмүүс зөв үү ? Зөвхөн чиний сонголт биш итгэлцэл.s </p>
-          <p class="text-xs text-gray-400 mt-1">📅 2010-2026 он цагийн нөхөрлөл</p>
-        </div>
-      </div>
+  <!-- Footer -->
+  <footer class="bg-navy text-white p-6 sm:p-10 text-center">
+    <p class="text-lg sm:text-2xl font-anime text-sakura-light">🤝 Developered by Mr.Nyantai 🤝</p>
+    <p class="text-xs sm:text-m opacity-60 mt-2 sm:mt-3">Bayarlalaa Bayartai 💕</p>
+    <div class="mt-3 sm:mt-4 flex justify-center gap-4 sm:gap-6 text-xl sm:text-2xl">
+      <span>❤️</span>
+      <span>🤝</span>
+      <span>⭐</span>
+      <span>💫</span>
+      <span>🥳</span>
     </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 4: FRIEND VIDEOS (3 бичлэг) ===== -->
-  <section class="my-12 sm:my-20 max-w-6xl mx-auto">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center text-sakura mb-3" data-aos="fade-up">🎬 Бяцхаан мэндчилгээ</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Чамд зориулсан онцгой бичлэгүүд</p>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-      <div data-aos="fade-up" data-aos-delay="50">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b1.mov" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">💕 Төрсөн өдрийн эзэнг эхлээд яаая мэнд2</p>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="150">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b2.mov" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Онцгой дурсамж</p>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="250">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b3.mov" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🌟 Хөгжилтэй мөчүүд</p>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="150">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b4.mov" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Тэгээд гол нь өөртөө итгэлтэй айн </p>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 5: HALL OF FAME (18 карт) ===== -->
-  <section class="my-12 sm:my-20">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">🏆 Дурсамжийн өргөө</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Хэхэ бой хажуу тийш нь гүйлгээрэй гоё юм байгаа шүү ></p>
-
-    <div class="relative">
-      <button id="scroll-left-btn" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all opacity-0 md:opacity-100 hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-      </button>
-      <button id="scroll-right-btn" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all opacity-0 md:opacity-100 hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-      </button>
-
-      <div id="hall-of-fame-scroller" class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide p-3 sm:p-4 -mx-3 sm:-mx-4">
-        <div class="flex snap-x snap-mandatory gap-4 sm:gap-6">
-          <!-- 18 карт -->
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="30">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d18.jpeg" alt="Photo 1" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="60">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d17.png" alt="Photo 2" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="90">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d16.jpeg" alt="Photo 3" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="120">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d15.png" alt="Photo 4" class="hof-img" />
-            
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="150">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d14.jpg" alt="Photo 5" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="180">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d13.jpg" alt="Photo 6" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="210">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d12.png" alt="Photo 7" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="240">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d11.jpeg" alt="Photo 8" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="270">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d10.JPG" alt="Photo 9" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="300">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d9.JPG" alt="Photo 10" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="330">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d8.JPG" alt="Photo 11" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="360">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d7.JPEG" alt="Photo 12" class="hof-img" />
-             
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="390">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d6.jpg" alt="Photo 13" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="420">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d5.jpeg" alt="Photo 14" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="450">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d4.jpeg" alt="Photo 15" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="480">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d3.jpeg" alt="Photo 16" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="510">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d2.jpeg" alt="Photo 17" class="hof-img" />
-              
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="540">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d1.jpeg" alt="Photo 18" class="hof-img" />
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 6: FRIEND GALLERY (36 зураг) ===== -->
-  <section class="my-12 sm:my-20">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-2" data-aos="fade-up">📸 Зургуудийн чинь цуглуулга.</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Арай гэж олдсон нь энэ</p>
-
-    <div id="lightgallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-      <!-- 36 зураг -->
-      <a href="img/1.png" data-aos="zoom-in" class="block w-full photo-card">
-        <img src="img/a1.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 1" />
-      </a>
-      <a href="img/2.png" data-aos="zoom-in" data-aos-delay="25" class="block w-full photo-card">
-        <img src="img/a2.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 2" />
-      </a>
-      <a href="img/3.png" data-aos="zoom-in" data-aos-delay="50" class="block w-full photo-card">
-        <img src="img/a3.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 3" />
-      </a>
-      <a href="img/4.png" data-aos="zoom-in" data-aos-delay="75" class="block w-full photo-card">
-        <img src="img/a4.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 4" />
-      </a>
-      <a href="img/5.png" data-aos="zoom-in" data-aos-delay="100" class="block w-full photo-card">
-        <img src="img/a5.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 5" />
-      </a>
-      <a href="img/6.png" data-aos="zoom-in" data-aos-delay="125" class="block w-full photo-card">
-        <img src="img/a6.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 6" />
-      </a>
-      <a href="img/7.png" data-aos="zoom-in" data-aos-delay="150" class="block w-full photo-card">
-        <img src="img/a7.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 7" />
-      </a>
-      <a href="img/8.png" data-aos="zoom-in" data-aos-delay="175" class="block w-full photo-card">
-        <img src="img/a8.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 8" />
-      </a>
-      <a href="img/9.png" data-aos="zoom-in" data-aos-delay="200" class="block w-full photo-card">
-        <img src="img/a9.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 9" />
-      </a>
-      <a href="img/10.png" data-aos="zoom-in" data-aos-delay="225" class="block w-full photo-card">
-        <img src="img/a10.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 10" />
-      </a>
-      <a href="img/11.png" data-aos="zoom-in" data-aos-delay="250" class="block w-full photo-card">
-        <img src="img/a11.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 11" />
-      </a>
-      <a href="img/12.png" data-aos="zoom-in" data-aos-delay="275" class="block w-full photo-card">
-        <img src="img/a12.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 12" />
-      </a>
-      <a href="img/13.png" data-aos="zoom-in" data-aos-delay="300" class="block w-full photo-card">
-        <img src="img/a13.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 13" />
-      </a>
-      <a href="img/14.png" data-aos="zoom-in" data-aos-delay="325" class="block w-full photo-card">
-        <img src="img/a14.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 14" />
-      </a>
-      <a href="img/15.png" data-aos="zoom-in" data-aos-delay="350" class="block w-full photo-card">
-        <img src="img/a15.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 15" />
-      </a>
-      <a href="img/16.png" data-aos="zoom-in" data-aos-delay="375" class="block w-full photo-card">
-        <img src="img/a16.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 16" />
-      </a>
-      <a href="img/17.png" data-aos="zoom-in" data-aos-delay="400" class="block w-full photo-card">
-        <img src="img/a17.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 17" />
-      </a>
-      <a href="img/18.png" data-aos="zoom-in" data-aos-delay="425" class="block w-full photo-card">
-        <img src="img/a18.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 18" />
-      </a>
-      <a href="img/19.png" data-aos="zoom-in" data-aos-delay="450" class="block w-full photo-card">
-        <img src="img/a19.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 19" />
-      </a>
-      <a href="img/20.png" data-aos="zoom-in" data-aos-delay="475" class="block w-full photo-card">
-        <img src="img/a20.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 20" />
-      </a>
-      <a href="img/21.png" data-aos="zoom-in" data-aos-delay="500" class="block w-full photo-card">
-        <img src="img/a21.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 21" />
-      </a>
-      <a href="img/22.png" data-aos="zoom-in" data-aos-delay="525" class="block w-full photo-card">
-        <img src="img/a22.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 22" />
-      </a>
-      <a href="img/23.png" data-aos="zoom-in" data-aos-delay="550" class="block w-full photo-card">
-        <img src="img/a23.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 23" />
-      </a>
-      <a href="img/24.png" data-aos="zoom-in" data-aos-delay="575" class="block w-full photo-card">
-        <img src="img/a24.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 24" />
-      </a>
-      <a href="img/25.png" data-aos="zoom-in" data-aos-delay="600" class="block w-full photo-card">
-        <img src="img/a25.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 25" />
-      </a>
-      <a href="img/26.png" data-aos="zoom-in" data-aos-delay="625" class="block w-full photo-card">
-        <img src="img/a26.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 26" />
-      </a>
-      <a href="img/27.png" data-aos="zoom-in" data-aos-delay="650" class="block w-full photo-card">
-        <img src="img/a27.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 27" />
-      </a>
-      <a href="img/28.png" data-aos="zoom-in" data-aos-delay="675" class="block w-full photo-card">
-        <img src="img/a28.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 28" />
-      </a>
-      <a href="img/29.png" data-aos="zoom-in" data-aos-delay="700" class="block w-full photo-card">
-        <img src="img/a29.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 29" />
-      </a>
-      <a href="img/30.png" data-aos="zoom-in" data-aos-delay="725" class="block w-full photo-card">
-        <img src="img/a30.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 30" />
-      </a>
-      <a href="img/31.png" data-aos="zoom-in" data-aos-delay="750" class="block w-full photo-card">
-        <img src="img/a31.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 31" />
-      </a>
-      <a href="img/32.png" data-aos="zoom-in" data-aos-delay="775" class="block w-full photo-card">
-        <img src="img/a32.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 32" />
-      </a>
-      <a href="img/33.png" data-aos="zoom-in" data-aos-delay="800" class="block w-full photo-card">
-        <img src="img/a33.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 33" />
-      </a>
-      <a href="img/34.png" data-aos="zoom-in" data-aos-delay="825" class="block w-full photo-card">
-        <img src="img/a34.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 34" />
-      </a>
-      <a href="img/35.png" data-aos="zoom-in" data-aos-delay="850" class="block w-full photo-card">
-        <img src="img/a35.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 35" />
-      </a>
-      <a href="img/36.png" data-aos="zoom-in" data-aos-delay="875" class="block w-full photo-card">
-        <img src="img/a36.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 36" />
-      </a>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <div class="section-divider"></div>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 8: FRIENDLY FUTURE PLANS ===== -->
-  <section class="my-12 sm:my-20 max-w-4xl mx-auto" data-aos="fade-up">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3">🔮 Ирээдүйн төлөвлөгөө</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8">Бид хамтдаа хийх зүйлс</p>
-
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="50">
-        <div class="emoji-big mb-3">🚗</div>
-        <h3 class="text-base sm:text-xl font-anime text-sakura">Хамтдаа аялах</h3>
-        <p class="text-xs sm:text-sm text-gray-500 mt-2">Ядаж өгий орийдоо хха</p>
-      </div>
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="150">
-        <div class="emoji-big mb-3">🏐</div>
-        <h3 class="text-base sm:text-xl font-anime text-sakura">Хөгжилтэй тоглоом</h3>
-        <p class="text-xs sm:text-sm text-gray-500 mt-2">Зүгээр заалдёиоооо</p>
-      </div>
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="250">
-        <div class="emoji-big mb-3">🍜</div>
-        <h3 class="text-base sm:text-xl font-anime text-sakura">Гоё хоолонд орёоо тэгж байгаад хха</h3>
-        <p class="text-xs sm:text-sm text-gray-500 mt-2">Солиортоо хоол идье</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 9: FINALE ===== -->
-  <section class="my-12 sm:my-20" data-aos="fade-up">
-    <h2 class="text-3xl sm:text-4xl md:text-7xl font-anime text-center mb-4 sm:mb-6 leading-tight">
-      🎊 Дахиад төрсөн өдрийн мэнд, <br class="sm:hidden" />
-      <span class="text-gradient">Momochko </span>!
-    </h2>
-    <div class="max-w-4xl mx-auto rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden bg-navy p-6 sm:p-10 text-white text-center">
-      <p class="text-base sm:text-xl md:text-2xl font-light leading-relaxed">
-        Өнөөдөр чиний өдөр шүү амжилт! 💖
-      </p>
-      <div class="mt-4 sm:mt-6 flex justify-center gap-4 sm:gap-6 text-3xl sm:text-4xl">
-        <span>🎈</span>
-        <span>🎂</span>
-        <span>🎁</span>
-        <span>🎉</span>
-        <span>🤗</span>
-      </div>
-      <p class="mt-4 text-xs sm:text-sm opacity-60">— Чиний хөөрхөн үеэлээс сэтгэлийн бэлэг шүү хаха</p>
-    </div>
-  </section>
-
-</main>
-
-<!-- ===== FOOTER ===== -->
-<footer class="bg-navy text-white p-6 sm:p-10 text-center">
-  <p class="text-lg sm:text-2xl font-anime text-sakura-light">🤝 Developered by Mr.Nyantai 🤝</p>
-  <p class="text-xs sm:text-m opacity-60 mt-2 sm:mt-3">Bayarlalaa Bayartai 💕</p>
-  <div class="mt-3 sm:mt-4 flex justify-center gap-4 sm:gap-6 text-xl sm:text-2xl">
-    <span>❤️</span>
-    <span>🤝</span>
-    <span>⭐</span>
-    <span>💫</span>
-    <span>🥳</span>
-  </div>
-</footer>
+  </footer>
+</section>
 
 <!-- ===== SCRIPTS ===== -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -845,6 +1211,31 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+  // ---- SURVEY TO BIRTHDAY NAVIGATION ----
+  const surveySection = document.getElementById('survey-section');
+  const birthdaySection = document.getElementById('birthday-section');
+  const goToBirthdayBtn = document.getElementById('goToBirthdayBtn');
+
+  if (goToBirthdayBtn && surveySection && birthdaySection) {
+    goToBirthdayBtn.addEventListener('click', function() {
+      // Hide survey, show birthday
+      surveySection.style.display = 'none';
+      birthdaySection.classList.add('active');
+      birthdaySection.style.display = 'block';
+
+      // Scroll to top of birthday section
+      birthdaySection.scrollIntoView({ behavior: 'smooth' });
+
+      // Initialize AOS for newly visible elements
+      setTimeout(() => {
+        AOS.refresh();
+      }, 300);
+
+      // Trigger confetti
+      setTimeout(createConfetti, 500);
+    });
+  }
 
   // ---- COUNTDOWN ----
   const birthDate = new Date('2004-08-25T00:00:00');
@@ -878,11 +1269,14 @@ document.addEventListener('DOMContentLoaded', function() {
   AOS.init({ duration: 600, once: true });
 
   // ---- LIGHTGALLERY ----
-  lightGallery(document.getElementById('lightgallery'), {
-    speed: 400,
-    download: false,
-    thumbnail: false
-  });
+  const galleryElement = document.getElementById('lightgallery');
+  if (galleryElement) {
+    lightGallery(galleryElement, {
+      speed: 400,
+      download: false,
+      thumbnail: false
+    });
+  }
 
   // ---- HALL OF FAME SCROLLER ----
   const scroller = document.getElementById('hall-of-fame-scroller');
@@ -962,10 +1356,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Initial confetti burst
-  setTimeout(createConfetti, 500);
-  // Repeat confetti every 10 seconds
-  setInterval(createConfetti, 10000);
+  // Initial confetti burst (delayed until birthday shows)
+  // Will be triggered on button click
 
   // ---- SAKURA CANVAS ----
   const canvas = document.getElementById('sakura-canvas');
