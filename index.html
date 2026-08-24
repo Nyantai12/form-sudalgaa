@@ -1,1175 +1,277 @@
 <!DOCTYPE html>
-<html lang="mn" class="scroll-smooth">
+<html lang="mn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>Happy Birthday - Cousin Molomdoo</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #fef9f4;
-      color: #2c3e50;
-      overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .font-anime { font-family: 'Mochiy Pop One', sans-serif; }
-    .text-sakura { color: #FF6B8A; }
-    .text-sakura-light { color: #FFB7C5; }
-    .bg-sakura { background: #FFB7C5; }
-    .bg-sakura-dark { background: #FF6B8A; }
-    .bg-navy { background: #1a2634; }
-    .bg-cream { background: #fef9f4; }
-    .text-gradient {
-      background: linear-gradient(135deg, #FF6B8A, #FFB7C5, #FF6B8A);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% 200%;
-      animation: shimmer 3s ease-in-out infinite;
-    }
-    @keyframes shimmer {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    #sakura-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5;
-      pointer-events: none;
-    }
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* VIDEO BACKGROUND - FULL FIX */
-    .hero-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-    .hero-video-fallback {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      display: none;
-    }
-
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 16px;
-      background: #000;
-    }
-    .video-wrapper video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .video-wrapper video.controls {
-      object-fit: contain;
-      background: #000;
-    }
-
-    .photo-card {
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-    .photo-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(255, 107, 138, 0.2);
-    }
-
-    .glass-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 183, 197, 0.3);
-      border-radius: 20px;
-    }
-
-    .floating {
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-15px); }
-    }
-
-    .section-divider {
-      background: linear-gradient(90deg, transparent, #FFB7C5, #FF6B8A, #FFB7C5, transparent);
-      height: 3px;
-      width: 70%;
-      margin: 3rem auto;
-      border-radius: 4px;
-    }
-    .section-divider-thin {
-      background: linear-gradient(90deg, transparent, #FFB7C5, transparent);
-      height: 2px;
-      width: 40%;
-      margin: 2rem auto;
-      border-radius: 4px;
-    }
-
-    .timeline-dot {
-      width: 18px;
-      height: 18px;
-      background: #FF6B8A;
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 0 3px #FF6B8A;
-      flex-shrink: 0;
-    }
-
-    .wish-card {
-      background: white;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      transition: all 0.3s ease;
-      border-left: 4px solid #FF6B8A;
-    }
-    .wish-card:hover {
-      transform: translateX(6px);
-      box-shadow: 0 8px 30px rgba(255, 107, 138, 0.12);
-    }
-    .wish-card:nth-child(odd) { border-left-color: #FFB7C5; }
-
-    .countdown-box {
-      background: rgba(0,0,0,0.35);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 16px;
-      padding: 1rem 1.8rem;
-      display: inline-block;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .friend-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, #FF6B8A, #FFB7C5);
-      color: white;
-      padding: 0.25rem 1rem;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .emoji-big { font-size: 3rem; line-height: 1.2; }
-    @media (min-width: 768px) { .emoji-big { font-size: 4rem; } }
-
-    @media (max-width: 640px) {
-      .countdown-box { padding: 0.8rem 1.2rem; }
-      .countdown-box #countdown { font-size: 1rem !important; }
-      .glass-card { padding: 1.2rem !important; }
-      .wish-card { padding: 1rem; }
-      .section-divider { width: 85%; margin: 2rem auto; }
-    }
-
-    .timeline-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 16px;
-    }
-    @media (min-width: 768px) {
-      .timeline-img { height: 280px; }
-    }
-
-    .gallery-img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-    @media (min-width: 768px) {
-      .gallery-img { height: 220px; }
-    }
-
-    .hof-img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-    @media (min-width: 768px) {
-      .hof-img { height: 200px; }
-    }
-
-    .confetti-piece {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      z-index: 10;
-      pointer-events: none;
-      animation: confettiFall linear forwards;
-    }
-    @keyframes confettiFall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-    }
-
-    /* Background Music Button */
-    #bg-music {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 999;
-      opacity: 0.6;
-      transition: opacity 0.3s;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 107, 138, 0.2);
-      border: 2px solid rgba(255, 107, 138, 0.3);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #FF6B8A;
-      transition: all 0.3s;
-    }
-    #bg-music:hover {
-      opacity: 1;
-      background: rgba(255, 107, 138, 0.3);
-      transform: scale(1.1);
-    }
-    #bg-music.muted {
-      opacity: 0.3;
-    }
-    #bg-music.muted:hover {
-      opacity: 0.7;
-    }
-    @media (max-width: 550px) {
-      #bg-music {
-        bottom: 10px;
-        right: 10px;
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Тэмдэглэл — Нэвтрэх маягт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background: #f0ebf8;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 80px;
+    color: #202124;
+  }
+  .form-wrap {
+    width: 100%;
+    max-width: 640px;
+  }
+  .top-bar {
+    height: 10px;
+    border-radius: 8px 8px 0 0;
+    background: linear-gradient(90deg, #FF6B8A, #FFB7C5, #FF6B8A);
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid #dadce0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 28px 24px 32px;
+    margin-bottom: 16px;
+  }
+  .header-card {
+    border-left: 10px solid #FF6B8A;
+    padding-left: 24px;
+  }
+  h1 {
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: #202124;
+    line-height: 1.3;
+  }
+  .desc {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #5f6368;
+    line-height: 1.5;
+  }
+  .divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 20px 0;
+  }
+  .required-note {
+    font-size: 13px;
+    color: #d93025;
+    margin-top: 16px;
+  }
+  .question-card {
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 22px 24px;
+  }
+  label.q-title {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    color: #202124;
+    margin-bottom: 14px;
+  }
+  label.q-title .star { color: #d93025; margin-left: 2px; }
+  input[type="text"] {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dadce0;
+    padding: 6px 2px 8px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background: transparent;
+    transition: border-color .15s ease;
+  }
+  input[type="text"]:focus {
+    border-bottom: 2px solid #FF6B8A;
+    padding-bottom: 7px;
+  }
+  .error-msg {
+    display: none;
+    color: #d93025;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .error-msg.show { display: block; }
+  .radio-group { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #FF6B8A;
+    cursor: pointer;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+  }
+  button.submit-btn {
+    background: #FF6B8A;
+    color: #fff;
+    border: none;
+    padding: 10px 26px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: .2px;
+    transition: background .15s ease, box-shadow .15s ease;
+  }
+  button.submit-btn:hover {
+    background: #ff4f75;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  button.submit-btn:disabled {
+    background: #f1a7b8;
+    cursor: not-allowed;
+  }
+  .clear-link {
+    font-size: 13px;
+    color: #FF6B8A;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .clear-link:hover { text-decoration: underline; }
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: #70757a;
+    margin-top: 24px;
+  }
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .success-screen.show { display: block; }
+  .success-screen .icon { font-size: 48px; }
+  .success-screen h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 16px;
+    color: #202124;
+  }
+  .success-screen p {
+    font-size: 13px;
+    color: #5f6368;
+    margin-top: 24px;
+  }
+  #formArea.hide { display: none; }
+</style>
 </head>
 <body>
 
-<!-- ===== BACKGROUND MUSIC ===== -->
-<audio id="bg-audio" loop preload="auto">
-  <source src="music/background.mp3" type="audio/mpeg" />
-</audio>
+<div class="form-wrap">
 
-<!-- ===== MUSIC CONTROL BUTTON ===== -->
-<button id="bg-music" class="muted" title="Дуу тоглуулах/зогсоох">
-  <span id="music-icon">🔇</span>
-</button>
-
-<!-- ===== SAKURA CANVAS ===== -->
-<canvas id="sakura-canvas"></canvas>
-
-<!-- ===== CONFETTI CONTAINER ===== -->
-<div id="confetti-container"></div>
-
-<!-- ===== SECTION 1: HERO ===== -->
-<header class="min-h-screen relative flex items-center justify-center text-white overflow-hidden">
-  <!-- VIDEO BACKGROUND - FULLY FIXED -->
-  <video id="heroVideo" autoplay loop muted playsinline class="hero-video">
-    <source src="img/introooooo.mp4" type="video/mp4" />
-    <source src="img/intro.mp4" type="video/mp4" />
-    <source src="img/intro.mov" type="video/quicktime" />
-  </video>
-  <!-- FALLBACK IMAGE if video fails -->
-  <img id="heroFallback" src="img/hero-bg.jpg" alt="Background" class="hero-video-fallback" />
-  <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-
-  <div class="text-center z-10 p-4 w-full max-w-4xl mx-auto" data-aos="fade-in" data-aos-duration="1500">
-    <div class="floating">
-      <div class="text-3xl sm:text-5xl mb-2">🥳</div>
-      <h1 class="text-4xl sm:text-5xl md:text-7xl font-anime drop-shadow-2xl leading-tight">
-        Happy Birthday, <br />
-        <span class="text-gradient">Cousin Molomdoo</span>
-      </h1>
+  <div id="formArea">
+    <div class="top-bar"></div>
+    <div class="card header-card">
+      <h1>Тэмдэглэл — Нэвтрэх маягт</h1>
+      <div class="desc">Үргэлжлүүлэхийн тулд доорх мэдээллийг бөглөнө үү. Илгээх товч дарсны дараа тусгай хуудас руу шилжинэ.</div>
     </div>
-    <p class="mt-3 text-base sm:text-xl md:text-2xl font-light tracking-wider">🎉 Өнөөдөр чиний өдөр шүү 🎉</p>
-    <div class="mt-6 countdown-box" data-aos="fade-up" data-aos-delay="300">
-      <div id="countdown" class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-widest leading-relaxed"></div>
-    </div>
-    <div class="mt-5 flex justify-center gap-2 sm:gap-4 flex-wrap">
-      <span class="friend-badge">🤝 Хайр түгээгээрэй</span>
-      <span class="friend-badge">💪 Хүчтэй байгаарай</span>
-      <span class="friend-badge">😄 Үргэлж инээгээрэй</span>
+
+    <form id="entryForm" novalidate>
+      <div class="card question-card">
+        <label class="q-title" for="nameInput">Таны нэр<span class="star">*</span></label>
+        <input type="text" id="nameInput" name="name" autocomplete="off" placeholder="Нэрээ бичнэ үү" />
+        <div class="error-msg" id="nameError">Энэ талбарыг бөглөнө үү.</div>
+      </div>
+
+      <div class="card question-card" style="margin-top:16px;">
+        <label class="q-title">Та бэлэн үү?<span class="star">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="ready" value="yes" required />
+            Тийм, бэлэн байна 🎉
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="ready" value="excited" required />
+            Маш их хүлээж байна 💕
+          </label>
+        </div>
+        <div class="error-msg" id="readyError">Сонголтоо хийнэ үү.</div>
+      </div>
+
+      <div class="required-note">* Заавал бөглөх</div>
+
+      <div class="actions">
+        <button type="submit" class="submit-btn">Илгээх</button>
+        <a class="clear-link" id="clearBtn">Маягтыг цэвэрлэх</a>
+      </div>
+    </form>
+
+    <div class="footer-note">Энэ нь өөрийн гэсэн Google Form биш, зөвхөн адилхан загвартай хуудас юм.</div>
+  </div>
+
+  <div class="success-screen" id="successScreen">
+    <div class="top-bar"></div>
+    <div class="card" style="border-top:1px solid #dadce0;">
+      <div class="icon">✅</div>
+      <h2>Баярлалаа! Таны хариулт хадгалагдлаа.</h2>
+      <p>Хуудас руу шилжиж байна...</p>
     </div>
   </div>
-</header>
 
-<!-- ===== MAIN CONTENT ===== -->
-<main class="container mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8">
-
-  <!-- ===== SECTION 2: FRIEND LETTER ===== -->
-  <section class="my-12 sm:my-20 max-w-4xl mx-auto" data-aos="fade-up">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center text-sakura mb-6 sm:mb-8">💌 Үеэлдээ зориулсан мэндчилгээ</h2>
-    <div class="glass-card p-6 sm:p-8 md:p-12 text-base sm:text-lg leading-relaxed space-y-4">
-      <p class="text-xl sm:text-2xl font-anime text-sakura">Эрхэм үеэл [Жамбиймолом],</p>
-      <p>Эхлээд юуч гэсэн төрсөн өдрийн мэнд хүргэе! 🎂</p>
-      <p>Төрсөн цагаасаа эхлэн үеэл гэсэн тодотголтой өдийг хүрлээ энэ хугацаанд үеэлүүд ямар байдгийг тултал мэдэрсэн гэж бодож байна одоо ингээд амьдралын их далайд хөл тавьсан учир хамтдаа дурсамж бүтээлцэх өдөр хоног цаг хугацаа багасаж байна.</p>
-      <p>Тус тусдаа хувийн амьдралынхаа төлөө зүтгэж гэрэлт ирээдүйнхээ төлөө хичээцгээе тэгээд чадахгүй байна тэгээд байна ингээд байна гээд байхаар гараа чанга атгаад хичээгээрэй амжилт. </p>
-      <p>Өөр юу ч хэлэх үү дээ угаса тэгээл уулзаж байх байлгүй бүтэхгүй дурлалтай учраад яваад байваа тэр зурагаа хаяаарай мангараа!!!</p>
-      <div class="flex justify-end items-center gap-4 mt-4">
-        <span class="text-sm opacity-60">— Чиний хөөрхөн үеэлээс аая.</span>
-        <span class="text-2xl">🤗</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 3: BEST MOMENTS TIMELINE ===== -->
-  <section class="my-12 sm:my-20">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">📖 Бидний хамгийн сайхан мөчүүд</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Үеэлүүдийн дурсамж — мөнхөд үлдэх эрдэнэ</p>
-
-    <div class="space-y-12 sm:space-y-16 md:space-y-20 max-w-5xl mx-auto">
-
-      <!-- 1 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/1.jpeg" alt="Анхны уулзалт" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#1</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🤝 Анхны хоолонд оролт</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Энэ өдөр Баагий ах Отгоо аниа хоёр бяднийг хоолонд оруулсан үхэх гэж байгаа юм шиг идэж байгаагийн хха.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2022 оны намар хавьцаа байх өө</p>
-        </div>
-      </div>
-
-      <!-- 2 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/8.jpeg" alt="Хамтдаа инээсэн" class=" h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#2</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">😂 Хамтдаа инээсэн өдөр</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Зааланд тоглохоороо л татаж унанашдээ тийм ээ хаха.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 Хаврын цагаар л байх</p>
-        </div>
-      </div>
-
-      <!-- 3 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/3.jpeg" alt="Аялал" class=" h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#3</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌄 Хамтдаа аялсан нь</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Анхны аялал айн ямарч мэдрэмжгүй их идэх юм авсан гэхдээ дуусгасан гахайнууд.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2025 он байх аа</p>
-        </div>
-      </div>
-
-      <!-- 4 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/13.png" alt="Баяр" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#4</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎉 Хамгийн сайхан баяр</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Гэрийн том босс-ын төрсөн өдөр 5лаа солиортол буу халсөөн хха.Хоол фэйлдцэн тогооч нь би бишшүү.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2023 оны намар</p>
-        </div>
-      </div>
-
-      <!-- 5 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/7.jpeg" alt="Гайхалтай мөч" class=" h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#5</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌟 Гайхалтай мөч</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Кино түрээслэж үзэж байж 3ын 3лаа унтаж эдр өө айр айр.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 Хэзээ ч ийн мэдэхгүй ээ.</p>
-        </div>
-      </div>
-
-      <!-- 6 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/hool.jpeg" alt="Найз нөхөд" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#6</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">👫 Хоолны мангас</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Тэнэг юм шиг дандаа гэдэсээ дүүртэл иднэ.Үнэн дуртай ядаж байхад турах талаар яриад ч яахав маргааш болий.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 Үргэлж</p>
-        </div>
-      </div>
-
-      <!-- 7 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/zaal.jpeg" alt="Хамтын ажил" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#7</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎯 Хамтдаа зорилгодоо хүрсэн</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Заал авахыг бол зорилгоо болгосон хэсэгхэн хугацаанд</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2025 оны хавар</p>
-        </div>
-      </div>
-
-      <!-- 8 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/moroodol.jpeg" alt="Мөрөөдөл" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#8</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌠 Мөрөөдөл биелсэн мөч</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Чиний мөрөөдөл биелэхэд бид бүгд хамтдаа баярласан.
-            Одоо бүр том мөрөөдлийнхөө төлөө gooooooooooo
-          </p>
-          <p class="text-xs text-gray-400 mt-1">📅 2026 оны зун</p>
-        </div>
-      </div>
-
-      <!-- 9 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/dur.jpeg" alt="Хамтын дурсамж" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#9</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">📸 Хамтдаа бүтээсэн дурсамж</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Бидний дурсамж мөнхөд үлдэнэ.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2014 он хавьцаа байх өөө</p>
-        </div>
-      </div>
-
-      <!-- 10 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/9.jpeg" alt="Ирээдүйн төлөв" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#10</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🌈 Ирээдүйн гэрэл</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Одоо ямар хүмүүс болсон байна ирээдүйнхээ төлөө зүтгээд байждээ.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2022 оны намар</p>
-        </div>
-      </div>
-
-      <!-- 11 -->
-      <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/5.jpeg" alt="Хөгжилтэй үдэш" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -right-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#11</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-left">
-          <div class="flex items-center justify-center md:justify-start gap-3">
-            <div class="timeline-dot"></div>
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🎮 Хөгжилтэй үдэш</h3>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Шөнө дунд хүртэл инээлдэж, хөгжилдсөн үе байсаан солиотой уйддаг байж дээ.</p>
-          <p class="text-xs text-gray-400 mt-1">📅 2024 оны намар</p>
-        </div>
-      </div>
-
-      <!-- 12 -->
-      <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
-        <div class="md:w-1/2 relative w-full">
-          <img src="img/nzu.jpeg" alt="Хамгийн сайн найз" class="h-64 timeline-img shadow-xl border-4 border-white" />
-          <div class="absolute -top-2 -left-2 bg-sakura-dark text-white px-3 py-0.5 rounded-full text-xs sm:text-sm font-bold">#12</div>
-        </div>
-        <div class="md:w-1/2 text-center md:text-right">
-          <div class="flex items-center justify-center md:justify-end gap-3">
-            <h3 class="text-xl sm:text-2xl md:text-3xl font-anime text-sakura">🏆 Хамгийн сайн найзууд</h3>
-            <div class="timeline-dot"></div>
-          </div>
-          <p class="mt-2 text-sm sm:text-base md:text-lg">Маш их дурсамж бүтээлцсэн хүмүүс зөв үү ? Зөвхөн чиний сонголт биш итгэлцэл.s </p>
-          <p class="text-xs text-gray-400 mt-1">📅 2010-2026 он цагийн нөхөрлөл</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 4: FRIEND VIDEOS ===== -->
-  <section class="my-12 sm:my-20 max-w-6xl mx-auto">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center text-sakura mb-3" data-aos="fade-up">🎬 Бяцхаан мэндчилгээ</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Чамд зориулсан онцгой бичлэгүүд</p>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-      <div data-aos="fade-up" data-aos-delay="50">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b1.mov" type="video/mp4" />
-            <source src="img/b1.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">💕 Төрсөн өдрийн эзэнг эхлээд яаая мэнд2</p>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="150">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b2.mov" type="video/mp4" />
-            <source src="img/b2.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Онцгой дурсамж</p>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="250">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b3.mov" type="video/mp4" />
-            <source src="img/b3.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🌟 Хөгжилтэй мөчүүд</p>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="150">
-        <div class="video-wrapper shadow-xl">
-          <video controls class="controls rounded-xl">
-            <source src="img/b4.mov" type="video/mp4" />
-            <source src="img/b4.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Тэгээд гол нь өөртөө итгэлтэй айн </p>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 5: HALL OF FAME ===== -->
-  <section class="my-12 sm:my-20">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">🏆 Дурсамжийн өргөө</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Хэхэ бой хажуу тийш нь гүйлгээрэй гоё юм байгаа шүү ></p>
-
-    <div class="relative">
-      <button id="scroll-left-btn" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all opacity-0 md:opacity-100 hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-      </button>
-      <button id="scroll-right-btn" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 sm:p-3 shadow-lg transition-all opacity-0 md:opacity-100 hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-      </button>
-
-      <div id="hall-of-fame-scroller" class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide p-3 sm:p-4 -mx-3 sm:-mx-4">
-        <div class="flex snap-x snap-mandatory gap-4 sm:gap-6">
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="30">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d18.jpeg" alt="Photo 1" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="60">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d17.png" alt="Photo 2" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="90">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d16.jpeg" alt="Photo 3" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="120">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d15.png" alt="Photo 4" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="150">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d14.jpg" alt="Photo 5" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="180">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d13.jpg" alt="Photo 6" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="210">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d12.png" alt="Photo 7" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="240">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d11.jpeg" alt="Photo 8" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="270">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d10.JPG" alt="Photo 9" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="300">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d9.JPG" alt="Photo 10" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="330">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d8.JPG" alt="Photo 11" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="360">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d7.JPEG" alt="Photo 12" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="390">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d6.jpg" alt="Photo 13" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="420">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d5.jpeg" alt="Photo 14" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="450">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d4.jpeg" alt="Photo 15" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="480">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d3.jpeg" alt="Photo 16" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="510">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d2.jpeg" alt="Photo 17" class="hof-img" />
-            </div>
-          </div>
-          <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="540">
-            <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
-              <img src="img/d1.jpeg" alt="Photo 18" class="hof-img" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 6: GALLERY ===== -->
-  <section class="my-12 sm:my-20">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-2" data-aos="fade-up">📸 Зургуудийн чинь цуглуулга.</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Арай гэж олдсон нь энэ</p>
-
-    <div id="lightgallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-      <a href="img/a1.jpeg" data-aos="zoom-in" class="block w-full photo-card">
-        <img src="img/a1.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 1" />
-      </a>
-      <a href="img/a2.jpeg" data-aos="zoom-in" data-aos-delay="25" class="block w-full photo-card">
-        <img src="img/a2.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 2" />
-      </a>
-      <a href="img/a3.jpeg" data-aos="zoom-in" data-aos-delay="50" class="block w-full photo-card">
-        <img src="img/a3.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 3" />
-      </a>
-      <a href="img/a4.jpeg" data-aos="zoom-in" data-aos-delay="75" class="block w-full photo-card">
-        <img src="img/a4.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 4" />
-      </a>
-      <a href="img/a5.jpeg" data-aos="zoom-in" data-aos-delay="100" class="block w-full photo-card">
-        <img src="img/a5.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 5" />
-      </a>
-      <a href="img/a6.jpeg" data-aos="zoom-in" data-aos-delay="125" class="block w-full photo-card">
-        <img src="img/a6.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 6" />
-      </a>
-      <a href="img/a7.jpeg" data-aos="zoom-in" data-aos-delay="150" class="block w-full photo-card">
-        <img src="img/a7.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 7" />
-      </a>
-      <a href="img/a8.jpeg" data-aos="zoom-in" data-aos-delay="175" class="block w-full photo-card">
-        <img src="img/a8.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 8" />
-      </a>
-      <a href="img/a9.jpeg" data-aos="zoom-in" data-aos-delay="200" class="block w-full photo-card">
-        <img src="img/a9.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 9" />
-      </a>
-      <a href="img/a10.jpeg" data-aos="zoom-in" data-aos-delay="225" class="block w-full photo-card">
-        <img src="img/a10.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 10" />
-      </a>
-      <a href="img/a11.jpeg" data-aos="zoom-in" data-aos-delay="250" class="block w-full photo-card">
-        <img src="img/a11.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 11" />
-      </a>
-      <a href="img/a12.jpeg" data-aos="zoom-in" data-aos-delay="275" class="block w-full photo-card">
-        <img src="img/a12.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 12" />
-      </a>
-      <a href="img/a13.jpeg" data-aos="zoom-in" data-aos-delay="300" class="block w-full photo-card">
-        <img src="img/a13.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 13" />
-      </a>
-      <a href="img/a14.jpeg" data-aos="zoom-in" data-aos-delay="325" class="block w-full photo-card">
-        <img src="img/a14.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 14" />
-      </a>
-      <a href="img/a15.jpeg" data-aos="zoom-in" data-aos-delay="350" class="block w-full photo-card">
-        <img src="img/a15.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 15" />
-      </a>
-      <a href="img/a16.jpeg" data-aos="zoom-in" data-aos-delay="375" class="block w-full photo-card">
-        <img src="img/a16.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 16" />
-      </a>
-      <a href="img/a17.png" data-aos="zoom-in" data-aos-delay="400" class="block w-full photo-card">
-        <img src="img/a17.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 17" />
-      </a>
-      <a href="img/a18.jpeg" data-aos="zoom-in" data-aos-delay="425" class="block w-full photo-card">
-        <img src="img/a18.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 18" />
-      </a>
-      <a href="img/a19.jpeg" data-aos="zoom-in" data-aos-delay="450" class="block w-full photo-card">
-        <img src="img/a19.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 19" />
-      </a>
-      <a href="img/a20.jpeg" data-aos="zoom-in" data-aos-delay="475" class="block w-full photo-card">
-        <img src="img/a20.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 20" />
-      </a>
-      <a href="img/a21.jpeg" data-aos="zoom-in" data-aos-delay="500" class="block w-full photo-card">
-        <img src="img/a21.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 21" />
-      </a>
-      <a href="img/a22.jpeg" data-aos="zoom-in" data-aos-delay="525" class="block w-full photo-card">
-        <img src="img/a22.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 22" />
-      </a>
-      <a href="img/a23.jpeg" data-aos="zoom-in" data-aos-delay="550" class="block w-full photo-card">
-        <img src="img/a23.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 23" />
-      </a>
-      <a href="img/a24.jpeg" data-aos="zoom-in" data-aos-delay="575" class="block w-full photo-card">
-        <img src="img/a24.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 24" />
-      </a>
-      <a href="img/a25.jpeg" data-aos="zoom-in" data-aos-delay="600" class="block w-full photo-card">
-        <img src="img/a25.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 25" />
-      </a>
-      <a href="img/a26.jpeg" data-aos="zoom-in" data-aos-delay="625" class="block w-full photo-card">
-        <img src="img/a26.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 26" />
-      </a>
-      <a href="img/a27.jpeg" data-aos="zoom-in" data-aos-delay="650" class="block w-full photo-card">
-        <img src="img/a27.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 27" />
-      </a>
-      <a href="img/a28.jpeg" data-aos="zoom-in" data-aos-delay="675" class="block w-full photo-card">
-        <img src="img/a28.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 28" />
-      </a>
-      <a href="img/a29.jpeg" data-aos="zoom-in" data-aos-delay="700" class="block w-full photo-card">
-        <img src="img/a29.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 29" />
-      </a>
-      <a href="img/a30.jpeg" data-aos="zoom-in" data-aos-delay="725" class="block w-full photo-card">
-        <img src="img/a30.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 30" />
-      </a>
-      <a href="img/a31.jpeg" data-aos="zoom-in" data-aos-delay="750" class="block w-full photo-card">
-        <img src="img/a31.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 31" />
-      </a>
-      <a href="img/a32.png" data-aos="zoom-in" data-aos-delay="775" class="block w-full photo-card">
-        <img src="img/a32.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 32" />
-      </a>
-      <a href="img/a33.png" data-aos="zoom-in" data-aos-delay="800" class="block w-full photo-card">
-        <img src="img/a33.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 33" />
-      </a>
-      <a href="img/a34.png" data-aos="zoom-in" data-aos-delay="825" class="block w-full photo-card">
-        <img src="img/a34.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 34" />
-      </a>
-      <a href="img/a35.png" data-aos="zoom-in" data-aos-delay="850" class="block w-full photo-card">
-        <img src="img/a35.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 35" />
-      </a>
-      <a href="img/a36.jpeg" data-aos="zoom-in" data-aos-delay="875" class="block w-full photo-card">
-        <img src="img/a36.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 36" />
-      </a>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 8: FUTURE PLANS ===== -->
-  <section class="my-12 sm:my-20 max-w-4xl mx-auto" data-aos="fade-up">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3">🔮 Ирээдүйн төлөвлөгөө</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8">Бид хамтдаа хийх зүйлс</p>
-
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="50">
-        <div class="emoji-big mb-3">🚗</div>
-        <h3 class="text-base sm:text-xl font-anime text-sakura">Хамтдаа аялах</h3>
-        <p class="text-xs sm:text-sm text-gray-500 mt-2">Ядаж өгий орийдоо хха</p>
-      </div>
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="150">
-        <div class="emoji-big mb-3">🏐</div>
-        <h3 class="text-base sm:text-xl font-anime text-sakura">Хөгжилтэй тоглоом</h3>
-        <p class="text-xs sm:text-sm text-gray-500 mt-2">Зүгээр заалдёиоооо</p>
-      </div>
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-lg text-center photo-card" data-aos="flip-left" data-aos-delay="250">
-        <div class="emoji-big mb-3">🍜</div>
-        <h3 class="text-base sm:text-xl font-anime text-sakura">Гоё хоолонд орёоо тэгж байгаад хха</h3>
-        <p class="text-xs sm:text-sm text-gray-500 mt-2">Солиортоо хоол идье</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 9: FINALE ===== -->
-  <section class="my-12 sm:my-20" data-aos="fade-up">
-    <h2 class="text-3xl sm:text-4xl md:text-7xl font-anime text-center mb-4 sm:mb-6 leading-tight">
-      🎊 Дахиад төрсөн өдрийн мэнд, <br class="sm:hidden" />
-      <span class="text-gradient">Momochko </span>!
-    </h2>
-    <div class="max-w-4xl mx-auto rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden bg-navy p-6 sm:p-10 text-white text-center">
-      <p class="text-base sm:text-xl md:text-2xl font-light leading-relaxed">
-        Өнөөдөр чиний өдөр шүү амжилт! 💖
-      </p>
-      <div class="mt-4 sm:mt-6 flex justify-center gap-4 sm:gap-6 text-3xl sm:text-4xl">
-        <span>🎈</span>
-        <span>🎂</span>
-        <span>🎁</span>
-        <span>🎉</span>
-        <span>🤗</span>
-      </div>
-      <p class="mt-4 text-xs sm:text-sm opacity-60">— Чиний хөөрхөн үеэлээс сэтгэлийн бэлэг шүү хаха</p>
-    </div>
-  </section>
-
-</main>
-
-<!-- ===== FOOTER ===== -->
-<footer class="bg-navy text-white p-6 sm:p-10 text-center">
-  <p class="text-lg sm:text-2xl font-anime text-sakura-light">🤝 Developered by Mr.Nyantai 🤝</p>
-  <p class="text-xs sm:text-m opacity-60 mt-2 sm:mt-3">Bayarlalaa Bayartai 💕</p>
-  <div class="mt-3 sm:mt-4 flex justify-center gap-4 sm:gap-6 text-xl sm:text-2xl">
-    <span>❤️</span>
-    <span>🤝</span>
-    <span>⭐</span>
-    <span>💫</span>
-    <span>🥳</span>
-  </div>
-</footer>
-
-<!-- ===== SCRIPTS ===== -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/lightgallery.min.js"></script>
+</div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('entryForm');
+  const nameInput = document.getElementById('nameInput');
+  const nameError = document.getElementById('nameError');
+  const readyError = document.getElementById('readyError');
+  const clearBtn = document.getElementById('clearBtn');
+  const formArea = document.getElementById('formArea');
+  const successScreen = document.getElementById('successScreen');
 
-  // ===== BACKGROUND MUSIC =====
-  const audio = document.getElementById('bg-audio');
-  const musicBtn = document.getElementById('bg-music');
-  const musicIcon = document.getElementById('music-icon');
-  let isMusicPlaying = false;
+  clearBtn.addEventListener('click', function () {
+    form.reset();
+    nameError.classList.remove('show');
+    readyError.classList.remove('show');
+  });
 
-  function playMusic() {
-    audio.volume = 0.2;
-    audio.play().then(() => {
-      isMusicPlaying = true;
-      musicIcon.textContent = '🔊';
-      musicBtn.classList.remove('muted');
-    }).catch(() => {
-      isMusicPlaying = false;
-      musicIcon.textContent = '🔇';
-      musicBtn.classList.add('muted');
-    });
-  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    let valid = true;
 
-  function toggleMusic() {
-    if (isMusicPlaying) {
-      audio.pause();
-      isMusicPlaying = false;
-      musicIcon.textContent = '🔇';
-      musicBtn.classList.add('muted');
+    if (!nameInput.value.trim()) {
+      nameError.classList.add('show');
+      valid = false;
     } else {
-      audio.play().then(() => {
-        isMusicPlaying = true;
-        musicIcon.textContent = '🔊';
-        musicBtn.classList.remove('muted');
-      }).catch(() => {});
+      nameError.classList.remove('show');
     }
-  }
 
-  playMusic();
-
-  document.addEventListener('click', function() {
-    if (!isMusicPlaying) {
-      audio.play().then(() => {
-        isMusicPlaying = true;
-        musicIcon.textContent = '🔊';
-        musicBtn.classList.remove('muted');
-      }).catch(() => {});
+    const readyChecked = form.querySelector('input[name="ready"]:checked');
+    if (!readyChecked) {
+      readyError.classList.add('show');
+      valid = false;
+    } else {
+      readyError.classList.remove('show');
     }
-  }, { once: true });
 
-  musicBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    toggleMusic();
+    if (!valid) return;
+
+    formArea.classList.add('hide');
+    successScreen.classList.add('show');
+
+    setTimeout(function () {
+      window.location.href = 'birthday.html';
+    }, 1400);
   });
-
-  // ===== VIDEO FALLBACK =====
-  const heroVideo = document.getElementById('heroVideo');
-  const heroFallback = document.getElementById('heroFallback');
-
-  if (heroVideo) {
-    heroVideo.addEventListener('error', function() {
-      console.log('Hero video failed, showing fallback image');
-      this.style.display = 'none';
-      heroFallback.style.display = 'block';
-    });
-
-    // Also try loading after a timeout
-    setTimeout(function() {
-      if (heroVideo.readyState === 0) {
-        console.log('Video not loaded, showing fallback');
-        heroVideo.style.display = 'none';
-        heroFallback.style.display = 'block';
-      }
-    }, 5000);
-  }
-
-  // ===== COUNTDOWN =====
-  const birthDate = new Date('2004-08-25T00:00:00');
-  const countdownElement = document.getElementById('countdown');
-
-  function updateAge() {
-    const now = new Date();
-    let years = now.getFullYear() - birthDate.getFullYear();
-    let months = now.getMonth() - birthDate.getMonth();
-    let days = now.getDate() - birthDate.getDate();
-    let hours = now.getHours() - birthDate.getHours();
-    let minutes = now.getMinutes() - birthDate.getMinutes();
-    let seconds = now.getSeconds() - birthDate.getSeconds();
-
-    if (seconds < 0) { seconds += 60; minutes--; }
-    if (minutes < 0) { minutes += 60; hours--; }
-    if (hours < 0) { hours += 24; days--; }
-    if (days < 0) {
-      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-      days += prevMonth.getDate();
-      months--;
-    }
-    if (months < 0) { months += 12; years--; }
-
-    countdownElement.innerHTML = `${years}жил ${months}сар ${days}өдөр <br> ${hours}цаг ${minutes}мин ${seconds}сек`;
-  }
-  setInterval(updateAge, 1000);
-  updateAge();
-
-  // ===== AOS =====
-  AOS.init({ duration: 600, once: true });
-
-  // ===== LIGHTGALLERY =====
-  lightGallery(document.getElementById('lightgallery'), {
-    speed: 400,
-    download: false,
-    thumbnail: false
-  });
-
-  // ===== HALL OF FAME SCROLLER =====
-  const scroller = document.getElementById('hall-of-fame-scroller');
-  const scrollLeftBtn = document.getElementById('scroll-left-btn');
-  const scrollRightBtn = document.getElementById('scroll-right-btn');
-  if (scroller && scrollLeftBtn && scrollRightBtn) {
-    function getCardWidth() {
-      const card = scroller.querySelector('.snap-center');
-      if (!card) return 240;
-      const gap = parseInt(getComputedStyle(card.parentElement).gap) || 16;
-      return card.offsetWidth + gap;
-    }
-
-    scrollRightBtn.addEventListener('click', () => {
-      scroller.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
-    });
-    scrollLeftBtn.addEventListener('click', () => {
-      scroller.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
-    });
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-    scroller.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-    scroller.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) {
-          scroller.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
-        } else {
-          scroller.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
-        }
-      }
-    });
-  }
-
-  // ===== CONFETTI =====
-  function createConfetti() {
-    const container = document.getElementById('confetti-container');
-    const colors = ['#FF6B8A', '#FFB7C5', '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
-    const shapes = ['circle', 'square', 'triangle'];
-
-    for (let i = 0; i < 50; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const size = 6 + Math.random() * 10;
-      const shape = shapes[Math.floor(Math.random() * shapes.length)];
-      const left = Math.random() * 100;
-      const duration = 3 + Math.random() * 4;
-      const delay = Math.random() * 2;
-
-      piece.style.left = left + '%';
-      piece.style.width = size + 'px';
-      piece.style.height = size + 'px';
-      piece.style.background = color;
-      piece.style.borderRadius = shape === 'circle' ? '50%' : shape === 'square' ? '2px' : '0';
-      piece.style.animationDuration = duration + 's';
-      piece.style.animationDelay = delay + 's';
-
-      if (shape === 'triangle') {
-        piece.style.width = '0';
-        piece.style.height = '0';
-        piece.style.background = 'none';
-        piece.style.borderLeft = size/2 + 'px solid transparent';
-        piece.style.borderRight = size/2 + 'px solid transparent';
-        piece.style.borderBottom = size + 'px solid ' + color;
-      }
-
-      container.appendChild(piece);
-
-      setTimeout(() => {
-        piece.remove();
-      }, (duration + delay) * 1000 + 500);
-    }
-  }
-
-  setTimeout(createConfetti, 500);
-  setInterval(createConfetti, 10000);
-
-  // ===== SAKURA CANVAS =====
-  const canvas = document.getElementById('sakura-canvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let petals = [];
-    const numPetals = 75;
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function Petal() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height * 2 - canvas.height;
-      this.w = 14 + Math.random() * 14;
-      this.h = 10 + Math.random() * 10;
-      this.opacity = 0.4 + Math.random() * 0.4;
-      this.flip = Math.random();
-      this.xSpeed = 0.8 + Math.random() * 1.8;
-      this.ySpeed = 0.6 + Math.random() * 1.2;
-      this.flipSpeed = Math.random() * 0.03;
-      this.rotation = Math.random() * Math.PI * 2;
-      this.rotationSpeed = (Math.random() - 0.5) * 0.025;
-    }
-
-    Petal.prototype.draw = function() {
-      if (this.y > canvas.height + 40 || this.x > canvas.width + 40) {
-        this.x = -this.w - Math.random() * 40;
-        this.y = Math.random() * canvas.height * 0.4 - canvas.height * 0.2;
-        this.xSpeed = 0.8 + Math.random() * 1.8;
-        this.ySpeed = 0.6 + Math.random() * 1.2;
-        this.flip = Math.random();
-        this.rotation = Math.random() * Math.PI * 2;
-      }
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rotation);
-      ctx.globalAlpha = this.opacity;
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.bezierCurveTo(this.w / 2, -this.h / 2, this.w, 0, this.w / 2, this.h / 2);
-      ctx.bezierCurveTo(0, this.h, -this.w / 2, 0, 0, 0);
-      ctx.closePath();
-      ctx.fillStyle = '#FFB7C5';
-      ctx.fill();
-      ctx.restore();
-    };
-
-    Petal.prototype.update = function() {
-      this.x += this.xSpeed + Math.sin(this.flip * 2) * 0.4;
-      this.y += this.ySpeed;
-      this.flip += this.flipSpeed;
-      this.rotation += this.rotationSpeed;
-      this.draw();
-    };
-
-    function createPetals() {
-      petals = [];
-      for (let i = 0; i < numPetals; i++) {
-        petals.push(new Petal());
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      petals.forEach(petal => petal.update());
-      requestAnimationFrame(animate);
-    }
-
-    createPetals();
-    animate();
-  }
-
 });
 </script>
 
