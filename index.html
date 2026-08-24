@@ -57,6 +57,50 @@
       pointer-events: none;
     }
 
+    /* Background Music Player - hidden */
+    #bg-music {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 107, 138, 0.2);
+      border: 2px solid rgba(255, 107, 138, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #FF6B8A;
+      transition: all 0.3s;
+    }
+    #bg-music:hover {
+      opacity: 1;
+      background: rgba(255, 107, 138, 0.3);
+      transform: scale(1.1);
+    }
+    #bg-music.muted {
+      opacity: 0.3;
+    }
+    #bg-music.muted:hover {
+      opacity: 0.7;
+    }
+    @media (max-width: 550px) {
+      #bg-music {
+        bottom: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+      }
+    }
+
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -462,12 +506,10 @@
       }
     }
 
-    /* Smooth scroll to birthday section */
     html {
       scroll-behavior: smooth;
     }
 
-    /* Hide birthday section initially, show via JS or link */
     #birthday-section {
       display: none;
     }
@@ -477,6 +519,18 @@
   </style>
 </head>
 <body>
+
+<!-- ===== BACKGROUND MUSIC ===== -->
+<audio id="bg-audio" loop preload="auto">
+  <source src="music/background.mp3" type="audio/mpeg" />
+  <!-- Хэрэв mp3 байхгүй бол энэ fallback дуу ашиглана -->
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- ===== MUSIC CONTROL BUTTON ===== -->
+<button id="bg-music" class="muted" title="Дуу тоглуулах/зогсоох">
+  <span id="music-icon">🔇</span>
+</button>
 
 <!-- ===== SAKURA CANVAS ===== -->
 <canvas id="sakura-canvas"></canvas>
@@ -604,7 +658,6 @@
       <!-- Товчнууд -->
       <div class="form-actions">
         <button class="btn btn-clear" type="reset">Цэвэрлэх</button>
-        <!-- Submit button now navigates to birthday section -->
         <button class="btn btn-primary" type="button" id="goToBirthdayBtn">Илгээх</button>
       </div>
 
@@ -1212,32 +1265,88 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-  // ---- SURVEY TO BIRTHDAY NAVIGATION ----
+  // ===== BACKGROUND MUSIC =====
+  const audio = document.getElementById('bg-audio');
+  const musicBtn = document.getElementById('bg-music');
+  const musicIcon = document.getElementById('music-icon');
+  let isMusicPlaying = false;
+
+  // Хуудас руу ороход дуу тоглуулах (авто-плей)
+  function playMusic() {
+    audio.volume = 0.2; // Намуухан дуу
+    audio.play().then(() => {
+      isMusicPlaying = true;
+      musicIcon.textContent = '🔊';
+      musicBtn.classList.remove('muted');
+    }).catch(() => {
+      // Хэрэв авто-плей блоклогдвол хэрэглэгчийн клик хүлээх
+      isMusicPlaying = false;
+      musicIcon.textContent = '🔇';
+      musicBtn.classList.add('muted');
+    });
+  }
+
+  // Дуу тоглуулах эсвэл зогсоох
+  function toggleMusic() {
+    if (isMusicPlaying) {
+      audio.pause();
+      isMusicPlaying = false;
+      musicIcon.textContent = '🔇';
+      musicBtn.classList.add('muted');
+    } else {
+      audio.play().then(() => {
+        isMusicPlaying = true;
+        musicIcon.textContent = '🔊';
+        musicBtn.classList.remove('muted');
+      }).catch(() => {
+        // Алдаа гарвал
+      });
+    }
+  }
+
+  // Хэрэглэгч хуудас руу ороход дуу тоглох
+  // Зарим browser-ууд авто-плейг блоклодог тул хэрэглэгчийн анхны кликээр тоглуулна
+  playMusic();
+
+  // Хэрэглэгч хаана ч дарвал дуу тоглох (хэрэв тоглоогүй бол)
+  document.addEventListener('click', function() {
+    if (!isMusicPlaying) {
+      audio.play().then(() => {
+        isMusicPlaying = true;
+        musicIcon.textContent = '🔊';
+        musicBtn.classList.remove('muted');
+      }).catch(() => {});
+    }
+  }, { once: true });
+
+  // Дууны товч дээр дарах
+  musicBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleMusic();
+  });
+
+  // ===== SURVEY TO BIRTHDAY NAVIGATION =====
   const surveySection = document.getElementById('survey-section');
   const birthdaySection = document.getElementById('birthday-section');
   const goToBirthdayBtn = document.getElementById('goToBirthdayBtn');
 
   if (goToBirthdayBtn && surveySection && birthdaySection) {
     goToBirthdayBtn.addEventListener('click', function() {
-      // Hide survey, show birthday
       surveySection.style.display = 'none';
       birthdaySection.classList.add('active');
       birthdaySection.style.display = 'block';
 
-      // Scroll to top of birthday section
       birthdaySection.scrollIntoView({ behavior: 'smooth' });
 
-      // Initialize AOS for newly visible elements
       setTimeout(() => {
         AOS.refresh();
       }, 300);
 
-      // Trigger confetti
       setTimeout(createConfetti, 500);
     });
   }
 
-  // ---- COUNTDOWN ----
+  // ===== COUNTDOWN =====
   const birthDate = new Date('2004-08-25T00:00:00');
   const countdownElement = document.getElementById('countdown');
 
@@ -1265,10 +1374,10 @@ document.addEventListener('DOMContentLoaded', function() {
   setInterval(updateAge, 1000);
   updateAge();
 
-  // ---- AOS ----
+  // ===== AOS =====
   AOS.init({ duration: 600, once: true });
 
-  // ---- LIGHTGALLERY ----
+  // ===== LIGHTGALLERY =====
   const galleryElement = document.getElementById('lightgallery');
   if (galleryElement) {
     lightGallery(galleryElement, {
@@ -1278,7 +1387,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ---- HALL OF FAME SCROLLER ----
+  // ===== HALL OF FAME SCROLLER =====
   const scroller = document.getElementById('hall-of-fame-scroller');
   const scrollLeftBtn = document.getElementById('scroll-left-btn');
   const scrollRightBtn = document.getElementById('scroll-right-btn');
@@ -1315,7 +1424,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ---- CONFETTI ----
+  // ===== CONFETTI =====
   function createConfetti() {
     const container = document.getElementById('confetti-container');
     const colors = ['#FF6B8A', '#FFB7C5', '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
@@ -1356,10 +1465,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Initial confetti burst (delayed until birthday shows)
-  // Will be triggered on button click
-
-  // ---- SAKURA CANVAS ----
+  // ===== SAKURA CANVAS =====
   const canvas = document.getElementById('sakura-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
