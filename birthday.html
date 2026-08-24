@@ -329,10 +329,6 @@
       color: #6b7280;
       margin-top: 0.5rem;
     }
-    #musicIcon {
-      font-size: 52px;
-      line-height: 1;
-    }
     #music-prompt button {
       margin-top: 1.25rem;
       background: linear-gradient(135deg, #FF6B8A, #FFB7C5);
@@ -369,7 +365,7 @@
 
 <!-- ===== MUSIC CONTROL BUTTON ===== -->
 <button id="bg-music" class="muted" title="Дуу тоглуулах/зогсоох">
-  <span id="music-icon">🔇дуу</span>
+  <span id="music-icon">🔇</span>
 </button>
 
 <!-- ===== MUSIC PROMPT OVERLAY (shown only if autoplay is blocked) ===== -->
@@ -1006,25 +1002,17 @@ document.addEventListener('DOMContentLoaded', function() {
   audio.volume = 0.15;
 
   function markPlaying() {
-  isMusicPlaying = true;
-  musicIcon.textContent = '🔊';
-  musicIcon.style.fontSize = '35px';
-  musicIcon.style.marginRight = '5px';
-  musicIcon.style.marginBottom = '5px';
+    isMusicPlaying = true;
+    musicIcon.textContent = '🔊';
+    musicBtn.classList.remove('muted');
+    musicPrompt.classList.remove('show');
+  }
 
-  musicBtn.classList.remove('muted');
-  musicPrompt.classList.remove('show');
-}
-
-function markStopped() {
-  isMusicPlaying = false;
-  musicIcon.textContent = '🔇';
-  musicIcon.style.fontSize = '35px';
-  musicIcon.style.marginRight = '5px';
-  musicIcon.style.marginBottom = '5px';
-
-  musicBtn.classList.add('muted');
-}
+  function markStopped() {
+    isMusicPlaying = false;
+    musicIcon.textContent = '🔇';
+    musicBtn.classList.add('muted');
+  }
 
   // Try to autoplay right away. Most browsers block this without a prior
   // tap, in which case we show a friendly prompt so the visitor can start
