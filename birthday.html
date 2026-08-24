@@ -278,19 +278,106 @@
         font-size: 14px;
       }
     }
+
+    /* Music prompt overlay - shown when autoplay is blocked by the browser */
+    #music-prompt {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(26, 38, 52, 0.72);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #music-prompt.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #music-prompt .prompt-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem 1.75rem;
+      max-width: 320px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      transform: translateY(10px) scale(0.96);
+      transition: transform 0.35s ease;
+    }
+    #music-prompt.show .prompt-card {
+      transform: translateY(0) scale(1);
+    }
+    #music-prompt .prompt-emoji {
+      font-size: 2.5rem;
+      animation: float 2.4s ease-in-out infinite;
+    }
+    #music-prompt h3 {
+      font-family: 'Mochiy Pop One', sans-serif;
+      color: #FF6B8A;
+      font-size: 1.1rem;
+      margin-top: 0.75rem;
+      line-height: 1.4;
+    }
+    #music-prompt p {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+    #music-prompt button {
+      margin-top: 1.25rem;
+      background: linear-gradient(135deg, #FF6B8A, #FFB7C5);
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.75rem;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 107, 138, 0.35);
+      transition: transform 0.15s ease;
+    }
+    #music-prompt button:hover {
+      transform: scale(1.05);
+    }
+    #music-prompt .skip-link {
+      display: block;
+      margin-top: 0.9rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      cursor: pointer;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
 <!-- ===== BACKGROUND MUSIC ===== -->
 <audio id="bg-audio" loop preload="auto">
-  <source src="music/background.mp3" type="audio/mpeg" />
+  <source src="music/https://youtu.be/byxFUKxhT3s?si=2o-6k-N4yndFzXlj" type="audio/mpeg" />
 </audio>
 
 <!-- ===== MUSIC CONTROL BUTTON ===== -->
 <button id="bg-music" class="muted" title="Дуу тоглуулах/зогсоох">
   <span id="music-icon">🔇</span>
 </button>
+
+<!-- ===== MUSIC PROMPT OVERLAY (shown only if autoplay is blocked) ===== -->
+<div id="music-prompt">
+  <div class="prompt-card">
+    <div class="prompt-emoji">🎵</div>
+    <h3>Хөгжимтэй үзэх үү?</h3>
+    <p>Хөтөч аудиог автоматаар асаахыг зөвшөөрдөггүй тул нэг товшоод дуутайгаар үргэлжлүүлээрэй.</p>
+    <button id="music-prompt-btn">🔊 Дуу асаах</button>
+    <span class="skip-link" id="music-prompt-skip">Дуугүйгээр үзэх</span>
+  </div>
+</div>
 
 <!-- ===== SAKURA CANVAS ===== -->
 <canvas id="sakura-canvas"></canvas>
@@ -907,51 +994,64 @@ document.addEventListener('DOMContentLoaded', function() {
   const audio = document.getElementById('bg-audio');
   const musicBtn = document.getElementById('bg-music');
   const musicIcon = document.getElementById('music-icon');
+  const musicPrompt = document.getElementById('music-prompt');
+  const musicPromptBtn = document.getElementById('music-prompt-btn');
+  const musicPromptSkip = document.getElementById('music-prompt-skip');
   let isMusicPlaying = false;
+  audio.volume = 0.2;
 
-  function playMusic() {
-    audio.volume = 0.2;
-    audio.play().then(() => {
-      isMusicPlaying = true;
-      musicIcon.textContent = '🔊';
-      musicBtn.classList.remove('muted');
-    }).catch(() => {
-      isMusicPlaying = false;
-      musicIcon.textContent = '🔇';
-      musicBtn.classList.add('muted');
+  function markPlaying() {
+    isMusicPlaying = true;
+    musicIcon.textContent = '🔊';
+    musicBtn.classList.remove('muted');
+    musicPrompt.classList.remove('show');
+  }
+
+  function markStopped() {
+    isMusicPlaying = false;
+    musicIcon.textContent = '🔇';
+    musicBtn.classList.add('muted');
+  }
+
+  // Try to autoplay right away. Most browsers block this without a prior
+  // tap, in which case we show a friendly prompt so the visitor can start
+  // the music with one click instead of stumbling on the small corner icon.
+  function attemptAutoplay() {
+    audio.play().then(markPlaying).catch(function() {
+      markStopped();
+      musicPrompt.classList.add('show');
     });
   }
 
   function toggleMusic() {
     if (isMusicPlaying) {
       audio.pause();
-      isMusicPlaying = false;
-      musicIcon.textContent = '🔇';
-      musicBtn.classList.add('muted');
+      markStopped();
     } else {
-      audio.play().then(() => {
-        isMusicPlaying = true;
-        musicIcon.textContent = '🔊';
-        musicBtn.classList.remove('muted');
-      }).catch(() => {});
+      audio.play().then(markPlaying).catch(function() {});
     }
   }
 
-  playMusic();
+  attemptAutoplay();
 
+  // Any tap anywhere on the page also starts the music, as a fallback.
   document.addEventListener('click', function() {
     if (!isMusicPlaying) {
-      audio.play().then(() => {
-        isMusicPlaying = true;
-        musicIcon.textContent = '🔊';
-        musicBtn.classList.remove('muted');
-      }).catch(() => {});
+      audio.play().then(markPlaying).catch(function() {});
     }
   }, { once: true });
 
   musicBtn.addEventListener('click', function(e) {
     e.stopPropagation();
     toggleMusic();
+  });
+
+  musicPromptBtn.addEventListener('click', function() {
+    audio.play().then(markPlaying).catch(function() {});
+  });
+
+  musicPromptSkip.addEventListener('click', function() {
+    musicPrompt.classList.remove('show');
   });
 
   // ===== VIDEO FALLBACK =====

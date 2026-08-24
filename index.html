@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Тэмдэглэл — Нэвтрэх маягт</title>
+<title>Тэмдэглэл — 10 асуулттай маягт</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -66,6 +66,10 @@
     border: 1px solid #dadce0;
     border-radius: 8px;
     padding: 22px 24px;
+    margin-top: 16px;
+  }
+  .question-card:first-of-type {
+    margin-top: 0;
   }
   label.q-title {
     display: block;
@@ -75,7 +79,10 @@
     margin-bottom: 14px;
   }
   label.q-title .star { color: #d93025; margin-left: 2px; }
-  input[type="text"] {
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  textarea {
     width: 100%;
     border: none;
     border-bottom: 1px solid #dadce0;
@@ -86,9 +93,23 @@
     background: transparent;
     transition: border-color .15s ease;
   }
-  input[type="text"]:focus {
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  textarea:focus {
     border-bottom: 2px solid #FF6B8A;
     padding-bottom: 7px;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 60px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    padding: 8px 10px;
+  }
+  textarea:focus {
+    border: 2px solid #FF6B8A;
+    padding: 7px 9px;
   }
   .error-msg {
     display: none;
@@ -97,25 +118,47 @@
     margin-top: 8px;
   }
   .error-msg.show { display: block; }
-  .radio-group { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
-  .radio-option {
+  .radio-group, .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .radio-option, .checkbox-option {
     display: flex;
     align-items: center;
     gap: 12px;
     font-size: 14px;
     cursor: pointer;
   }
-  .radio-option input[type="radio"] {
+  .radio-option input[type="radio"],
+  .checkbox-option input[type="checkbox"] {
     width: 18px;
     height: 18px;
     accent-color: #FF6B8A;
     cursor: pointer;
+  }
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+  }
+  select:focus {
+    border: 2px solid #FF6B8A;
   }
   .actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   button.submit-btn {
     background: #FF6B8A;
@@ -133,10 +176,6 @@
   button.submit-btn:hover {
     background: #ff4f75;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
-  button.submit-btn:disabled {
-    background: #f1a7b8;
-    cursor: not-allowed;
   }
   .clear-link {
     font-size: 13px;
@@ -180,30 +219,109 @@
   <div id="formArea">
     <div class="top-bar"></div>
     <div class="card header-card">
-      <h1>Тэмдэглэл — Нэвтрэх маягт</h1>
-      <div class="desc">Үргэлжлүүлэхийн тулд доорх мэдээллийг бөглөнө үү. Илгээх товч дарсны дараа тусгай хуудас руу шилжинэ.</div>
+      <h1>📝 Тэмдэглэл — 10 асуулттай маягт</h1>
+      <div class="desc">Доорх бүх асуултанд хариулж, илгээх товчийг дарна уу.</div>
     </div>
 
     <form id="entryForm" novalidate>
+      <!-- Асуулт 1: Нэр -->
       <div class="card question-card">
-        <label class="q-title" for="nameInput">Таны нэр<span class="star">*</span></label>
-        <input type="text" id="nameInput" name="name" autocomplete="off" placeholder="Нэрээ бичнэ үү" />
-        <div class="error-msg" id="nameError">Энэ талбарыг бөглөнө үү.</div>
+        <label class="q-title" for="q1">1. Таны бүтэн нэр?<span class="star">*</span></label>
+        <input type="text" id="q1" name="q1" autocomplete="off" placeholder="Жишээ нь: Батдорж Гантулга" />
+        <div class="error-msg" id="error1">Энэ талбарыг бөглөнө үү.</div>
       </div>
 
-      <div class="card question-card" style="margin-top:16px;">
-        <label class="q-title">Та бэлэн үү?<span class="star">*</span></label>
+      <!-- Асуулт 2: Имэйл -->
+      <div class="card question-card">
+        <label class="q-title" for="q2">2. Имэйл хаяг<span class="star">*</span></label>
+        <input type="email" id="q2" name="q2" autocomplete="off" placeholder="example@mail.com" />
+        <div class="error-msg" id="error2">Имэйл хаягаа зөв оруулна уу.</div>
+      </div>
+
+      <!-- Асуулт 3: Нас -->
+      <div class="card question-card">
+        <label class="q-title" for="q3">3. Таны нас?<span class="star">*</span></label>
+        <input type="number" id="q3" name="q3" min="1" max="120" placeholder="18" />
+        <div class="error-msg" id="error3">Насаа оруулна уу (1-120).</div>
+      </div>
+
+      <!-- Асуулт 4: Хүйс -->
+      <div class="card question-card">
+        <label class="q-title">4. Хүйс<span class="star">*</span></label>
         <div class="radio-group">
-          <label class="radio-option">
-            <input type="radio" name="ready" value="yes" required />
-            Тийм, бэлэн байна 🎉
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="ready" value="excited" required />
-            Маш их хүлээж байна 💕
-          </label>
+          <label class="radio-option"><input type="radio" name="q4" value="male" /> Эрэгтэй</label>
+          <label class="radio-option"><input type="radio" name="q4" value="female" /> Эмэгтэй</label>
+          <label class="radio-option"><input type="radio" name="q4" value="other" /> Бусад</label>
         </div>
-        <div class="error-msg" id="readyError">Сонголтоо хийнэ үү.</div>
+        <div class="error-msg" id="error4">Сонголтоо хийнэ үү.</div>
+      </div>
+
+      <!-- Асуулт 5: Улс -->
+      <div class="card question-card">
+        <label class="q-title" for="q5">5. Та аль улсад амьдардаг вэ?<span class="star">*</span></label>
+        <select id="q5" name="q5">
+          <option value="">Сонгоно уу</option>
+          <option value="Mongolia">Монгол</option>
+          <option value="China">Хятад</option>
+          <option value="Russia">Орос</option>
+          <option value="USA">Америк</option>
+          <option value="Japan">Япон</option>
+          <option value="South Korea">Солонгос</option>
+          <option value="Germany">Герман</option>
+          <option value="UK">Их Британи</option>
+          <option value="other">Бусад</option>
+        </select>
+        <div class="error-msg" id="error5">Улсаа сонгоно уу.</div>
+      </div>
+
+      <!-- Асуулт 6: Хобби (олон сонголт) -->
+      <div class="card question-card">
+        <label class="q-title">6. Таны дуртай хобби? (хэд хэдэн сонгож болно)<span class="star">*</span></label>
+        <div class="checkbox-group">
+          <label class="checkbox-option"><input type="checkbox" name="q6" value="sport" /> Спорт</label>
+          <label class="checkbox-option"><input type="checkbox" name="q6" value="music" /> Хөгжим</label>
+          <label class="checkbox-option"><input type="checkbox" name="q6" value="reading" /> Ном унших</label>
+          <label class="checkbox-option"><input type="checkbox" name="q6" value="movie" /> Кино үзэх</label>
+          <label class="checkbox-option"><input type="checkbox" name="q6" value="travel" /> Аялах</label>
+          <label class="checkbox-option"><input type="checkbox" name="q6" value="coding" /> Програмчлах</label>
+        </div>
+        <div class="error-msg" id="error6">Хамгийн багадаа нэг сонголт хийнэ үү.</div>
+      </div>
+
+      <!-- Асуулт 7: Хоол -->
+      <div class="card question-card">
+        <label class="q-title">7. Та ямар төрлийн хоолонд дуртай вэ?<span class="star">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q7" value="mongolian" /> Монгол хоол</label>
+          <label class="radio-option"><input type="radio" name="q7" value="chinese" /> Хятад хоол</label>
+          <label class="radio-option"><input type="radio" name="q7" value="korean" /> Солонгос хоол</label>
+          <label class="radio-option"><input type="radio" name="q7" value="european" /> Европ хоол</label>
+          <label class="radio-option"><input type="radio" name="q7" value="other" /> Бусад</label>
+        </div>
+        <div class="error-msg" id="error7">Сонголтоо хийнэ үү.</div>
+      </div>
+
+      <!-- Асуулт 8: Сонирхолтой сэдэв -->
+      <div class="card question-card">
+        <label class="q-title" for="q8">8. Таны сонирхдог сэдэв?<span class="star">*</span></label>
+        <input type="text" id="q8" name="q8" autocomplete="off" placeholder="Жишээ нь: AI, урлаг, технологи..." />
+        <div class="error-msg" id="error8">Энэ талбарыг бөглөнө үү.</div>
+      </div>
+
+      <!-- Асуулт 9: Санал хүсэлт -->
+      <div class="card question-card">
+        <label class="q-title" for="q9">9. Таны санал хүсэлт (нэмэлт тэмдэглэл)?</label>
+        <textarea id="q9" name="q9" placeholder="Хүсвэл энд бичнэ үү..."></textarea>
+      </div>
+
+      <!-- Асуулт 10: Бэлэн эсэх -->
+      <div class="card question-card">
+        <label class="q-title">10. Та бүх асуултад хариулж, илгээхэд бэлэн үү?<span class="star">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q10" value="yes" /> Тийм, бэлэн байна 🎉</label>
+          <label class="radio-option"><input type="radio" name="q10" value="excited" /> Маш их хүлээж байна 💕</label>
+        </div>
+        <div class="error-msg" id="error10">Сонголтоо хийнэ үү.</div>
       </div>
 
       <div class="required-note">* Заавал бөглөх</div>
@@ -231,40 +349,115 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('entryForm');
-  const nameInput = document.getElementById('nameInput');
-  const nameError = document.getElementById('nameError');
-  const readyError = document.getElementById('readyError');
   const clearBtn = document.getElementById('clearBtn');
   const formArea = document.getElementById('formArea');
   const successScreen = document.getElementById('successScreen');
 
+  // Бүх алдааны мессежүүд
+  const errorElements = {
+    error1: document.getElementById('error1'),
+    error2: document.getElementById('error2'),
+    error3: document.getElementById('error3'),
+    error4: document.getElementById('error4'),
+    error5: document.getElementById('error5'),
+    error6: document.getElementById('error6'),
+    error7: document.getElementById('error7'),
+    error8: document.getElementById('error8'),
+    error10: document.getElementById('error10')
+  };
+
+  function clearAllErrors() {
+    Object.values(errorElements).forEach(el => el.classList.remove('show'));
+  }
+
+  // Маягт цэвэрлэх
   clearBtn.addEventListener('click', function () {
     form.reset();
-    nameError.classList.remove('show');
-    readyError.classList.remove('show');
+    clearAllErrors();
+    // Textarea цэвэрлэх
+    document.getElementById('q9').value = '';
   });
 
+  // Валлидаци
+  function validateForm() {
+    let valid = true;
+    clearAllErrors();
+
+    // q1: Нэр
+    const q1 = document.getElementById('q1');
+    if (!q1.value.trim()) {
+      errorElements.error1.classList.add('show');
+      valid = false;
+    }
+
+    // q2: Имэйл
+    const q2 = document.getElementById('q2');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(q2.value.trim())) {
+      errorElements.error2.classList.add('show');
+      valid = false;
+    }
+
+    // q3: Нас
+    const q3 = document.getElementById('q3');
+    const age = parseInt(q3.value);
+    if (!q3.value.trim() || isNaN(age) || age < 1 || age > 120) {
+      errorElements.error3.classList.add('show');
+      valid = false;
+    }
+
+    // q4: Хүйс (radio)
+    const q4 = form.querySelector('input[name="q4"]:checked');
+    if (!q4) {
+      errorElements.error4.classList.add('show');
+      valid = false;
+    }
+
+    // q5: Улс (select)
+    const q5 = document.getElementById('q5');
+    if (!q5.value) {
+      errorElements.error5.classList.add('show');
+      valid = false;
+    }
+
+    // q6: Хобби (checkbox - дор хаяж нэг)
+    const q6 = form.querySelectorAll('input[name="q6"]:checked');
+    if (q6.length === 0) {
+      errorElements.error6.classList.add('show');
+      valid = false;
+    }
+
+    // q7: Хоол (radio)
+    const q7 = form.querySelector('input[name="q7"]:checked');
+    if (!q7) {
+      errorElements.error7.classList.add('show');
+      valid = false;
+    }
+
+    // q8: Сонирхолтой сэдэв
+    const q8 = document.getElementById('q8');
+    if (!q8.value.trim()) {
+      errorElements.error8.classList.add('show');
+      valid = false;
+    }
+
+    // q10: Бэлэн эсэх (radio)
+    const q10 = form.querySelector('input[name="q10"]:checked');
+    if (!q10) {
+      errorElements.error10.classList.add('show');
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  // Илгээх
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    let valid = true;
 
-    if (!nameInput.value.trim()) {
-      nameError.classList.add('show');
-      valid = false;
-    } else {
-      nameError.classList.remove('show');
-    }
+    if (!validateForm()) return;
 
-    const readyChecked = form.querySelector('input[name="ready"]:checked');
-    if (!readyChecked) {
-      readyError.classList.add('show');
-      valid = false;
-    } else {
-      readyError.classList.remove('show');
-    }
-
-    if (!valid) return;
-
+    // Амжилттай
     formArea.classList.add('hide');
     successScreen.classList.add('show');
 
