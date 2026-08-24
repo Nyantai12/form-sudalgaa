@@ -365,7 +365,7 @@
 
 <!-- ===== MUSIC CONTROL BUTTON ===== -->
 <button id="bg-music" class="muted" title="Дуу тоглуулах/зогсоох">
-  <span id="music-icon">🔇дуу </span>
+  <span id="music-icon">🔇дуу</span>
 </button>
 
 <!-- ===== MUSIC PROMPT OVERLAY (shown only if autoplay is blocked) ===== -->
@@ -1003,14 +1003,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function markPlaying() {
     isMusicPlaying = true;
-    musicIcon.textContent = '🔊';
+    musicIcon.textContent = '🔊дуу нээх';
     musicBtn.classList.remove('muted');
     musicPrompt.classList.remove('show');
   }
 
   function markStopped() {
     isMusicPlaying = false;
-    musicIcon.textContent = '🔇';
+    musicIcon.textContent = '🔇дуу хаах';
     musicBtn.classList.add('muted');
   }
 
