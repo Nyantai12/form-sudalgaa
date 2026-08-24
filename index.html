@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>Happy Birthday - [Найзын нэр]</title>
+  <title>Happy Birthday - Cousin Molomdoo</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
@@ -52,6 +52,27 @@
     }
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* VIDEO BACKGROUND - FULL FIX */
+    .hero-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .hero-video-fallback {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      display: none;
+    }
 
     .video-wrapper {
       position: relative;
@@ -163,7 +184,6 @@
     .emoji-big { font-size: 3rem; line-height: 1.2; }
     @media (min-width: 768px) { .emoji-big { font-size: 4rem; } }
 
-    /* Mobile friendly */
     @media (max-width: 640px) {
       .countdown-box { padding: 0.8rem 1.2rem; }
       .countdown-box #countdown { font-size: 1rem !important; }
@@ -172,7 +192,6 @@
       .section-divider { width: 85%; margin: 2rem auto; }
     }
 
-    /* Image sizing */
     .timeline-img {
       width: 100%;
       height: 200px;
@@ -203,7 +222,6 @@
       .hof-img { height: 200px; }
     }
 
-    /* Confetti style */
     .confetti-piece {
       position: fixed;
       width: 10px;
@@ -216,9 +234,63 @@
       0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
+
+    /* Background Music Button */
+    #bg-music {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 107, 138, 0.2);
+      border: 2px solid rgba(255, 107, 138, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #FF6B8A;
+      transition: all 0.3s;
+    }
+    #bg-music:hover {
+      opacity: 1;
+      background: rgba(255, 107, 138, 0.3);
+      transform: scale(1.1);
+    }
+    #bg-music.muted {
+      opacity: 0.3;
+    }
+    #bg-music.muted:hover {
+      opacity: 0.7;
+    }
+    @media (max-width: 550px) {
+      #bg-music {
+        bottom: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
+
+<!-- ===== BACKGROUND MUSIC ===== -->
+<audio id="bg-audio" loop preload="auto">
+  <source src="music/background.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- ===== MUSIC CONTROL BUTTON ===== -->
+<button id="bg-music" class="muted" title="Дуу тоглуулах/зогсоох">
+  <span id="music-icon">🔇</span>
+</button>
 
 <!-- ===== SAKURA CANVAS ===== -->
 <canvas id="sakura-canvas"></canvas>
@@ -228,9 +300,14 @@
 
 <!-- ===== SECTION 1: HERO ===== -->
 <header class="min-h-screen relative flex items-center justify-center text-white overflow-hidden">
-  <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
+  <!-- VIDEO BACKGROUND - FULLY FIXED -->
+  <video id="heroVideo" autoplay loop muted playsinline class="hero-video">
     <source src="img/introooooo.mp4" type="video/mp4" />
+    <source src="img/intro.mp4" type="video/mp4" />
+    <source src="img/intro.mov" type="video/quicktime" />
   </video>
+  <!-- FALLBACK IMAGE if video fails -->
+  <img id="heroFallback" src="img/hero-bg.jpg" alt="Background" class="hero-video-fallback" />
   <div class="absolute inset-0 bg-black bg-opacity-40"></div>
 
   <div class="text-center z-10 p-4 w-full max-w-4xl mx-auto" data-aos="fade-in" data-aos-duration="1500">
@@ -241,7 +318,7 @@
         <span class="text-gradient">Cousin Molomdoo</span>
       </h1>
     </div>
-    <p class="mt-3 text-base sm:text-xl md:text-2xl font-light tracking-wider">🎉 Өнөөдөр чиний  өдөр шүү 🎉</p>
+    <p class="mt-3 text-base sm:text-xl md:text-2xl font-light tracking-wider">🎉 Өнөөдөр чиний өдөр шүү 🎉</p>
     <div class="mt-6 countdown-box" data-aos="fade-up" data-aos-delay="300">
       <div id="countdown" class="text-lg sm:text-2xl md:text-3xl font-semibold tracking-widest leading-relaxed"></div>
     </div>
@@ -274,10 +351,10 @@
 
   <div class="section-divider"></div>
 
-  <!-- ===== SECTION 3: BEST MOMENTS TIMELINE (12 хэсэг) ===== -->
+  <!-- ===== SECTION 3: BEST MOMENTS TIMELINE ===== -->
   <section class="my-12 sm:my-20">
     <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">📖 Бидний хамгийн сайхан мөчүүд</h2>
-    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Үеэлүүдийн  дурсамж — мөнхөд үлдэх эрдэнэ</p>
+    <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Үеэлүүдийн дурсамж — мөнхөд үлдэх эрдэнэ</p>
 
     <div class="space-y-12 sm:space-y-16 md:space-y-20 max-w-5xl mx-auto">
 
@@ -443,7 +520,7 @@
         </div>
       </div>
 
-      <!-- 11 (ШИНЭ) -->
+      <!-- 11 -->
       <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-right">
         <div class="md:w-1/2 relative w-full">
           <img src="img/5.jpeg" alt="Хөгжилтэй үдэш" class="h-64 timeline-img shadow-xl border-4 border-white" />
@@ -459,7 +536,7 @@
         </div>
       </div>
 
-      <!-- 12 (ШИНЭ) -->
+      <!-- 12 -->
       <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6 md:gap-8" data-aos="fade-left">
         <div class="md:w-1/2 relative w-full">
           <img src="img/nzu.jpeg" alt="Хамгийн сайн найз" class="h-64 timeline-img shadow-xl border-4 border-white" />
@@ -479,7 +556,7 @@
 
   <div class="section-divider"></div>
 
-  <!-- ===== SECTION 4: FRIEND VIDEOS (3 бичлэг) ===== -->
+  <!-- ===== SECTION 4: FRIEND VIDEOS ===== -->
   <section class="my-12 sm:my-20 max-w-6xl mx-auto">
     <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center text-sakura mb-3" data-aos="fade-up">🎬 Бяцхаан мэндчилгээ</h2>
     <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Чамд зориулсан онцгой бичлэгүүд</p>
@@ -489,6 +566,7 @@
         <div class="video-wrapper shadow-xl">
           <video controls class="controls rounded-xl">
             <source src="img/b1.mov" type="video/mp4" />
+            <source src="img/b1.mp4" type="video/mp4" />
           </video>
         </div>
         <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">💕 Төрсөн өдрийн эзэнг эхлээд яаая мэнд2</p>
@@ -497,6 +575,7 @@
         <div class="video-wrapper shadow-xl">
           <video controls class="controls rounded-xl">
             <source src="img/b2.mov" type="video/mp4" />
+            <source src="img/b2.mp4" type="video/mp4" />
           </video>
         </div>
         <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Онцгой дурсамж</p>
@@ -505,6 +584,7 @@
         <div class="video-wrapper shadow-xl">
           <video controls class="controls rounded-xl">
             <source src="img/b3.mov" type="video/mp4" />
+            <source src="img/b3.mp4" type="video/mp4" />
           </video>
         </div>
         <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🌟 Хөгжилтэй мөчүүд</p>
@@ -513,6 +593,7 @@
         <div class="video-wrapper shadow-xl">
           <video controls class="controls rounded-xl">
             <source src="img/b4.mov" type="video/mp4" />
+            <source src="img/b4.mp4" type="video/mp4" />
           </video>
         </div>
         <p class="text-center mt-2 text-xs sm:text-sm text-gray-500">🎈 Тэгээд гол нь өөртөө итгэлтэй айн </p>
@@ -522,7 +603,7 @@
 
   <div class="section-divider"></div>
 
-  <!-- ===== SECTION 5: HALL OF FAME (18 карт) ===== -->
+  <!-- ===== SECTION 5: HALL OF FAME ===== -->
   <section class="my-12 sm:my-20">
     <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3" data-aos="fade-up">🏆 Дурсамжийн өргөө</h2>
     <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Хэхэ бой хажуу тийш нь гүйлгээрэй гоё юм байгаа шүү ></p>
@@ -537,113 +618,94 @@
 
       <div id="hall-of-fame-scroller" class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide p-3 sm:p-4 -mx-3 sm:-mx-4">
         <div class="flex snap-x snap-mandatory gap-4 sm:gap-6">
-          <!-- 18 карт -->
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="30">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d18.jpeg" alt="Photo 1" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="60">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d17.png" alt="Photo 2" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="90">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d16.jpeg" alt="Photo 3" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="120">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d15.png" alt="Photo 4" class="hof-img" />
-            
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="150">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d14.jpg" alt="Photo 5" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="180">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d13.jpg" alt="Photo 6" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="210">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d12.png" alt="Photo 7" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="240">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d11.jpeg" alt="Photo 8" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="270">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d10.JPG" alt="Photo 9" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="300">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d9.JPG" alt="Photo 10" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="330">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d8.JPG" alt="Photo 11" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="360">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d7.JPEG" alt="Photo 12" class="hof-img" />
-             
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="390">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d6.jpg" alt="Photo 13" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="420">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d5.jpeg" alt="Photo 14" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="450">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d4.jpeg" alt="Photo 15" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="480">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d3.jpeg" alt="Photo 16" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="510">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d2.jpeg" alt="Photo 17" class="hof-img" />
-              
             </div>
           </div>
           <div class="snap-center flex-shrink-0 w-56 sm:w-64 md:w-72" data-aos="fade-up" data-aos-delay="540">
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-lg text-center photo-card h-full">
               <img src="img/d1.jpeg" alt="Photo 18" class="hof-img" />
-              
             </div>
           </div>
         </div>
@@ -653,119 +715,118 @@
 
   <div class="section-divider"></div>
 
-  <!-- ===== SECTION 6: FRIEND GALLERY (36 зураг) ===== -->
+  <!-- ===== SECTION 6: GALLERY ===== -->
   <section class="my-12 sm:my-20">
     <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-2" data-aos="fade-up">📸 Зургуудийн чинь цуглуулга.</h2>
     <p class="text-center text-sm sm:text-base text-gray-500 mb-8 sm:mb-12">Арай гэж олдсон нь энэ</p>
 
     <div id="lightgallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-      <!-- 36 зураг -->
-      <a href="img/1.png" data-aos="zoom-in" class="block w-full photo-card">
+      <a href="img/a1.jpeg" data-aos="zoom-in" class="block w-full photo-card">
         <img src="img/a1.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 1" />
       </a>
-      <a href="img/2.png" data-aos="zoom-in" data-aos-delay="25" class="block w-full photo-card">
+      <a href="img/a2.jpeg" data-aos="zoom-in" data-aos-delay="25" class="block w-full photo-card">
         <img src="img/a2.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 2" />
       </a>
-      <a href="img/3.png" data-aos="zoom-in" data-aos-delay="50" class="block w-full photo-card">
+      <a href="img/a3.jpeg" data-aos="zoom-in" data-aos-delay="50" class="block w-full photo-card">
         <img src="img/a3.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 3" />
       </a>
-      <a href="img/4.png" data-aos="zoom-in" data-aos-delay="75" class="block w-full photo-card">
+      <a href="img/a4.jpeg" data-aos="zoom-in" data-aos-delay="75" class="block w-full photo-card">
         <img src="img/a4.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 4" />
       </a>
-      <a href="img/5.png" data-aos="zoom-in" data-aos-delay="100" class="block w-full photo-card">
+      <a href="img/a5.jpeg" data-aos="zoom-in" data-aos-delay="100" class="block w-full photo-card">
         <img src="img/a5.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 5" />
       </a>
-      <a href="img/6.png" data-aos="zoom-in" data-aos-delay="125" class="block w-full photo-card">
+      <a href="img/a6.jpeg" data-aos="zoom-in" data-aos-delay="125" class="block w-full photo-card">
         <img src="img/a6.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 6" />
       </a>
-      <a href="img/7.png" data-aos="zoom-in" data-aos-delay="150" class="block w-full photo-card">
+      <a href="img/a7.jpeg" data-aos="zoom-in" data-aos-delay="150" class="block w-full photo-card">
         <img src="img/a7.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 7" />
       </a>
-      <a href="img/8.png" data-aos="zoom-in" data-aos-delay="175" class="block w-full photo-card">
+      <a href="img/a8.jpeg" data-aos="zoom-in" data-aos-delay="175" class="block w-full photo-card">
         <img src="img/a8.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 8" />
       </a>
-      <a href="img/9.png" data-aos="zoom-in" data-aos-delay="200" class="block w-full photo-card">
+      <a href="img/a9.jpeg" data-aos="zoom-in" data-aos-delay="200" class="block w-full photo-card">
         <img src="img/a9.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 9" />
       </a>
-      <a href="img/10.png" data-aos="zoom-in" data-aos-delay="225" class="block w-full photo-card">
+      <a href="img/a10.jpeg" data-aos="zoom-in" data-aos-delay="225" class="block w-full photo-card">
         <img src="img/a10.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 10" />
       </a>
-      <a href="img/11.png" data-aos="zoom-in" data-aos-delay="250" class="block w-full photo-card">
+      <a href="img/a11.jpeg" data-aos="zoom-in" data-aos-delay="250" class="block w-full photo-card">
         <img src="img/a11.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 11" />
       </a>
-      <a href="img/12.png" data-aos="zoom-in" data-aos-delay="275" class="block w-full photo-card">
+      <a href="img/a12.jpeg" data-aos="zoom-in" data-aos-delay="275" class="block w-full photo-card">
         <img src="img/a12.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 12" />
       </a>
-      <a href="img/13.png" data-aos="zoom-in" data-aos-delay="300" class="block w-full photo-card">
+      <a href="img/a13.jpeg" data-aos="zoom-in" data-aos-delay="300" class="block w-full photo-card">
         <img src="img/a13.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 13" />
       </a>
-      <a href="img/14.png" data-aos="zoom-in" data-aos-delay="325" class="block w-full photo-card">
+      <a href="img/a14.jpeg" data-aos="zoom-in" data-aos-delay="325" class="block w-full photo-card">
         <img src="img/a14.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 14" />
       </a>
-      <a href="img/15.png" data-aos="zoom-in" data-aos-delay="350" class="block w-full photo-card">
+      <a href="img/a15.jpeg" data-aos="zoom-in" data-aos-delay="350" class="block w-full photo-card">
         <img src="img/a15.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 15" />
       </a>
-      <a href="img/16.png" data-aos="zoom-in" data-aos-delay="375" class="block w-full photo-card">
+      <a href="img/a16.jpeg" data-aos="zoom-in" data-aos-delay="375" class="block w-full photo-card">
         <img src="img/a16.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 16" />
       </a>
-      <a href="img/17.png" data-aos="zoom-in" data-aos-delay="400" class="block w-full photo-card">
+      <a href="img/a17.png" data-aos="zoom-in" data-aos-delay="400" class="block w-full photo-card">
         <img src="img/a17.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 17" />
       </a>
-      <a href="img/18.png" data-aos="zoom-in" data-aos-delay="425" class="block w-full photo-card">
+      <a href="img/a18.jpeg" data-aos="zoom-in" data-aos-delay="425" class="block w-full photo-card">
         <img src="img/a18.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 18" />
       </a>
-      <a href="img/19.png" data-aos="zoom-in" data-aos-delay="450" class="block w-full photo-card">
+      <a href="img/a19.jpeg" data-aos="zoom-in" data-aos-delay="450" class="block w-full photo-card">
         <img src="img/a19.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 19" />
       </a>
-      <a href="img/20.png" data-aos="zoom-in" data-aos-delay="475" class="block w-full photo-card">
+      <a href="img/a20.jpeg" data-aos="zoom-in" data-aos-delay="475" class="block w-full photo-card">
         <img src="img/a20.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 20" />
       </a>
-      <a href="img/21.png" data-aos="zoom-in" data-aos-delay="500" class="block w-full photo-card">
+      <a href="img/a21.jpeg" data-aos="zoom-in" data-aos-delay="500" class="block w-full photo-card">
         <img src="img/a21.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 21" />
       </a>
-      <a href="img/22.png" data-aos="zoom-in" data-aos-delay="525" class="block w-full photo-card">
+      <a href="img/a22.jpeg" data-aos="zoom-in" data-aos-delay="525" class="block w-full photo-card">
         <img src="img/a22.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 22" />
       </a>
-      <a href="img/23.png" data-aos="zoom-in" data-aos-delay="550" class="block w-full photo-card">
+      <a href="img/a23.jpeg" data-aos="zoom-in" data-aos-delay="550" class="block w-full photo-card">
         <img src="img/a23.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 23" />
       </a>
-      <a href="img/24.png" data-aos="zoom-in" data-aos-delay="575" class="block w-full photo-card">
+      <a href="img/a24.jpeg" data-aos="zoom-in" data-aos-delay="575" class="block w-full photo-card">
         <img src="img/a24.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 24" />
       </a>
-      <a href="img/25.png" data-aos="zoom-in" data-aos-delay="600" class="block w-full photo-card">
+      <a href="img/a25.jpeg" data-aos="zoom-in" data-aos-delay="600" class="block w-full photo-card">
         <img src="img/a25.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 25" />
       </a>
-      <a href="img/26.png" data-aos="zoom-in" data-aos-delay="625" class="block w-full photo-card">
+      <a href="img/a26.jpeg" data-aos="zoom-in" data-aos-delay="625" class="block w-full photo-card">
         <img src="img/a26.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 26" />
       </a>
-      <a href="img/27.png" data-aos="zoom-in" data-aos-delay="650" class="block w-full photo-card">
+      <a href="img/a27.jpeg" data-aos="zoom-in" data-aos-delay="650" class="block w-full photo-card">
         <img src="img/a27.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 27" />
       </a>
-      <a href="img/28.png" data-aos="zoom-in" data-aos-delay="675" class="block w-full photo-card">
+      <a href="img/a28.jpeg" data-aos="zoom-in" data-aos-delay="675" class="block w-full photo-card">
         <img src="img/a28.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 28" />
       </a>
-      <a href="img/29.png" data-aos="zoom-in" data-aos-delay="700" class="block w-full photo-card">
+      <a href="img/a29.jpeg" data-aos="zoom-in" data-aos-delay="700" class="block w-full photo-card">
         <img src="img/a29.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 29" />
       </a>
-      <a href="img/30.png" data-aos="zoom-in" data-aos-delay="725" class="block w-full photo-card">
+      <a href="img/a30.jpeg" data-aos="zoom-in" data-aos-delay="725" class="block w-full photo-card">
         <img src="img/a30.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 30" />
       </a>
-      <a href="img/31.png" data-aos="zoom-in" data-aos-delay="750" class="block w-full photo-card">
+      <a href="img/a31.jpeg" data-aos="zoom-in" data-aos-delay="750" class="block w-full photo-card">
         <img src="img/a31.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 31" />
       </a>
-      <a href="img/32.png" data-aos="zoom-in" data-aos-delay="775" class="block w-full photo-card">
+      <a href="img/a32.png" data-aos="zoom-in" data-aos-delay="775" class="block w-full photo-card">
         <img src="img/a32.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 32" />
       </a>
-      <a href="img/33.png" data-aos="zoom-in" data-aos-delay="800" class="block w-full photo-card">
+      <a href="img/a33.png" data-aos="zoom-in" data-aos-delay="800" class="block w-full photo-card">
         <img src="img/a33.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 33" />
       </a>
-      <a href="img/34.png" data-aos="zoom-in" data-aos-delay="825" class="block w-full photo-card">
+      <a href="img/a34.png" data-aos="zoom-in" data-aos-delay="825" class="block w-full photo-card">
         <img src="img/a34.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 34" />
       </a>
-      <a href="img/35.png" data-aos="zoom-in" data-aos-delay="850" class="block w-full photo-card">
+      <a href="img/a35.png" data-aos="zoom-in" data-aos-delay="850" class="block w-full photo-card">
         <img src="img/a35.png" class="gallery-img shadow-md border-2 border-white" alt="Memory 35" />
       </a>
-      <a href="img/36.png" data-aos="zoom-in" data-aos-delay="875" class="block w-full photo-card">
+      <a href="img/a36.jpeg" data-aos="zoom-in" data-aos-delay="875" class="block w-full photo-card">
         <img src="img/a36.jpeg" class="gallery-img shadow-md border-2 border-white" alt="Memory 36" />
       </a>
     </div>
@@ -773,11 +834,7 @@
 
   <div class="section-divider"></div>
 
-  <div class="section-divider"></div>
-
-  <div class="section-divider"></div>
-
-  <!-- ===== SECTION 8: FRIENDLY FUTURE PLANS ===== -->
+  <!-- ===== SECTION 8: FUTURE PLANS ===== -->
   <section class="my-12 sm:my-20 max-w-4xl mx-auto" data-aos="fade-up">
     <h2 class="text-3xl sm:text-4xl md:text-6xl font-anime text-center mb-3">🔮 Ирээдүйн төлөвлөгөө</h2>
     <p class="text-center text-sm sm:text-base text-gray-500 mb-8">Бид хамтдаа хийх зүйлс</p>
@@ -846,7 +903,79 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-  // ---- COUNTDOWN ----
+  // ===== BACKGROUND MUSIC =====
+  const audio = document.getElementById('bg-audio');
+  const musicBtn = document.getElementById('bg-music');
+  const musicIcon = document.getElementById('music-icon');
+  let isMusicPlaying = false;
+
+  function playMusic() {
+    audio.volume = 0.2;
+    audio.play().then(() => {
+      isMusicPlaying = true;
+      musicIcon.textContent = '🔊';
+      musicBtn.classList.remove('muted');
+    }).catch(() => {
+      isMusicPlaying = false;
+      musicIcon.textContent = '🔇';
+      musicBtn.classList.add('muted');
+    });
+  }
+
+  function toggleMusic() {
+    if (isMusicPlaying) {
+      audio.pause();
+      isMusicPlaying = false;
+      musicIcon.textContent = '🔇';
+      musicBtn.classList.add('muted');
+    } else {
+      audio.play().then(() => {
+        isMusicPlaying = true;
+        musicIcon.textContent = '🔊';
+        musicBtn.classList.remove('muted');
+      }).catch(() => {});
+    }
+  }
+
+  playMusic();
+
+  document.addEventListener('click', function() {
+    if (!isMusicPlaying) {
+      audio.play().then(() => {
+        isMusicPlaying = true;
+        musicIcon.textContent = '🔊';
+        musicBtn.classList.remove('muted');
+      }).catch(() => {});
+    }
+  }, { once: true });
+
+  musicBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleMusic();
+  });
+
+  // ===== VIDEO FALLBACK =====
+  const heroVideo = document.getElementById('heroVideo');
+  const heroFallback = document.getElementById('heroFallback');
+
+  if (heroVideo) {
+    heroVideo.addEventListener('error', function() {
+      console.log('Hero video failed, showing fallback image');
+      this.style.display = 'none';
+      heroFallback.style.display = 'block';
+    });
+
+    // Also try loading after a timeout
+    setTimeout(function() {
+      if (heroVideo.readyState === 0) {
+        console.log('Video not loaded, showing fallback');
+        heroVideo.style.display = 'none';
+        heroFallback.style.display = 'block';
+      }
+    }, 5000);
+  }
+
+  // ===== COUNTDOWN =====
   const birthDate = new Date('2004-08-25T00:00:00');
   const countdownElement = document.getElementById('countdown');
 
@@ -874,17 +1003,17 @@ document.addEventListener('DOMContentLoaded', function() {
   setInterval(updateAge, 1000);
   updateAge();
 
-  // ---- AOS ----
+  // ===== AOS =====
   AOS.init({ duration: 600, once: true });
 
-  // ---- LIGHTGALLERY ----
+  // ===== LIGHTGALLERY =====
   lightGallery(document.getElementById('lightgallery'), {
     speed: 400,
     download: false,
     thumbnail: false
   });
 
-  // ---- HALL OF FAME SCROLLER ----
+  // ===== HALL OF FAME SCROLLER =====
   const scroller = document.getElementById('hall-of-fame-scroller');
   const scrollLeftBtn = document.getElementById('scroll-left-btn');
   const scrollRightBtn = document.getElementById('scroll-right-btn');
@@ -921,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ---- CONFETTI ----
+  // ===== CONFETTI =====
   function createConfetti() {
     const container = document.getElementById('confetti-container');
     const colors = ['#FF6B8A', '#FFB7C5', '#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
@@ -962,12 +1091,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Initial confetti burst
   setTimeout(createConfetti, 500);
-  // Repeat confetti every 10 seconds
   setInterval(createConfetti, 10000);
 
-  // ---- SAKURA CANVAS ----
+  // ===== SAKURA CANVAS =====
   const canvas = document.getElementById('sakura-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
