@@ -388,11 +388,18 @@
 <!-- ===== SECTION 1: HERO ===== -->
 <header class="min-h-screen relative flex items-center justify-center text-white overflow-hidden">
   <!-- VIDEO BACKGROUND - FULLY FIXED -->
-  <video id="heroVideo" autoplay loop muted playsinline class="hero-video">
-    <source src="img/introooooo.mp4" type="video/mp4" />
-    <source src="img/intro.mp4" type="video/mp4" />
-    <source src="img/intro.mov" type="video/quicktime" />
-  </video>
+  <video
+  id="heroVideo"
+  autoplay
+  muted
+  loop
+  playsinline
+  webkit-playsinline
+  preload="auto"
+  class="hero-video"
+>
+  <source src="img/introooooo.mp4" type="video/mp4">
+</video>
   <!-- FALLBACK IMAGE if video fails -->
   <img id="heroFallback" src="img/hero-bg.jpg" alt="Background" class="hero-video-fallback" />
   <div class="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -1194,6 +1201,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
   setTimeout(createConfetti, 500);
   setInterval(createConfetti, 10000);
+  
+document.addEventListener("DOMContentLoaded", () => {
+  const video = document.getElementById("heroVideo");
+
+  video.muted = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+
+  const playVideo = () => {
+    video.play().catch(() => {
+      // Browser autoplay-г хориглосон бол энд орно
+    });
+  };
+
+  playVideo();
+
+  window.addEventListener("load", playVideo);
+});
+
 
   // ===== SAKURA CANVAS =====
   const canvas = document.getElementById('sakura-canvas');
