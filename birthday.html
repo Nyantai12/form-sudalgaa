@@ -398,7 +398,7 @@
   preload="auto"
   class="hero-video"
 >
-  <source src="img/introooooo.mp4" type="video/mp4">
+  <source src="img/intro_mobile.mp4" type="video/mp4">
 </video>
   <!-- FALLBACK IMAGE if video fails -->
   <img id="heroFallback" src="img/hero-bg.jpg" alt="Background" class="hero-video-fallback" />
@@ -1202,23 +1202,14 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(createConfetti, 500);
   setInterval(createConfetti, 10000);
   
-document.addEventListener("DOMContentLoaded", () => {
+
+window.addEventListener("load", () => {
   const video = document.getElementById("heroVideo");
 
   video.muted = true;
-  video.setAttribute("muted", "");
-  video.setAttribute("playsinline", "");
-
-  const playVideo = () => {
-    video.play().catch(() => {
-      // Browser autoplay-г хориглосон бол энд орно
-    });
-  };
-
-  playVideo();
-
-  window.addEventListener("load", playVideo);
+  video.play().catch(() => {});
 });
+
 
 
   // ===== SAKURA CANVAS =====
